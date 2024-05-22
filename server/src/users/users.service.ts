@@ -11,6 +11,16 @@ export class UsersService {
   //create a new user
   async createUser(createUserDto: CreateUserDto) {
     const newUser = new this.userModel(createUserDto);
-    return newUser.save();
+    await newUser.save();
+    return { message: 'User registered successfully' };
+  }
+
+  //find by name
+  async findByName(name: string) {
+    return await this.userModel.findOne({ name: name });
+  }
+  //find by email
+  async findByEmail(email: string) {
+    return await this.userModel.findOne({ email: email });
   }
 }

@@ -12,7 +12,7 @@ export class UsersController {
   @Post()
   @ApiResponse({
     status: HttpStatus.CREATED,
-    description: Messages.UserCreated,
+    description: Messages.UserRegistered,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
