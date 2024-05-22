@@ -6,10 +6,17 @@ import { PasswordsDontMatchException } from './exceptions/passwords-dont-match.e
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from 'src/users/users.service';
+import { SignInDto } from './dto/sign-in.dto';
+import { InvalidEmailOrPasswordException } from './exceptions/invalid-email-or-password.exception';
+import { JwtService } from '@nestjs/jwt';
+import { Messages } from 'src/messages/messages.enum';
 
 @Injectable()
 export class AuthService {
-  constructor(private userService: UsersService) {}
+  constructor(
+    private userService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
   async signUp(signUpDto: SignUpDto) {
     //Checking if username is unique
@@ -29,5 +36,24 @@ export class AuthService {
     };
 
     return this.userService.createUser(createUserDto);
+  }
+
+  async signIn(signInDto: SignInDto) {
+    const user = await this.userService.findByEmail(signInDto.email);
+    if (!user) throw new InvalidEmailOrPasswordException();
+    if (!(await bcrypt.compare(signInDto.password, user.password))) {
+      throw new InvalidEmailOrPasswordException();
+    }
+
+    const payload = {
+      email: user.email,
+      name: user.name,
+      sub: user._id,
+    };
+
+    return {
+      access_token: await this.jwtService.signAsync(payload),
+      message: Messages.LoggedIn,
+    };
   }
 }

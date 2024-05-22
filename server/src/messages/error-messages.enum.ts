@@ -12,6 +12,7 @@ export enum ErrorMessages {
   CardNotFound = 'Card not found',
 
   UserNotFound = 'User not found',
+  InvalidEmailOrPassword = 'Invalid email or password',
   CannotDeleteAccount = 'User can not delete this account',
   CannotUpdateAccount = 'User can not update this account',
 }
