@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsEmail,
+  IsMongoId,
   IsNotEmpty,
   IsString,
   Length,
@@ -27,4 +29,9 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'Password is required' })
   @ApiProperty()
   password: string;
+
+  @IsArray()
+  @IsMongoId({ each: true })
+  @ApiProperty()
+  stacks: string[];
 }

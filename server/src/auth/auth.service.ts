@@ -33,6 +33,7 @@ export class AuthService {
       name: signUpDto.name,
       email: signUpDto.email,
       password: await bcrypt.hash(signUpDto.password, 10),
+      stacks: [],
     };
 
     return this.userService.createUser(createUserDto);

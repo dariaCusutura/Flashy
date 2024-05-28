@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Types } from 'mongoose';
 
 @Schema()
 export class User {
@@ -21,6 +22,9 @@ export class User {
     minLength: [8, 'Password must be at least 8 characters long'],
   })
   password: string;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Stack' }] })
+  stacks: Types.ObjectId[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
