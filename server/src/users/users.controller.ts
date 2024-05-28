@@ -12,17 +12,19 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Messages } from 'src/messages/messages.enum';
 import { ErrorMessages } from 'src/messages/error-messages.enum';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 
+@ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Post()
+  @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: Messages.UserRegistered,
@@ -40,6 +42,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @ApiOperation({ summary: 'Delete account' })
   @UseGuards(AuthGuard)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -63,6 +66,7 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @ApiOperation({ summary: 'Update account' })
   @UseGuards(AuthGuard)
   @ApiResponse({
     status: HttpStatus.OK,
@@ -89,6 +93,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @ApiOperation({ summary: 'Get user info by id' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: Messages.UserFound,
