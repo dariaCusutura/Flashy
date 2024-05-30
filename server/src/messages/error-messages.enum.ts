@@ -15,4 +15,9 @@ export enum ErrorMessages {
   InvalidEmailOrPassword = 'Invalid email or password',
   CannotDeleteAccount = 'User can not delete this account',
   CannotUpdateAccount = 'User can not update this account',
+  CannotDeleteStack = 'User can not delete this stack',
+  CannotUpdateStack = 'User can not update this stack',
+
+  PageNumberTooHigh = 'Page number exceeds the total number of pages',
+  PageNumberTooLow = 'Page number is too low',
 }

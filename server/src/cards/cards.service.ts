@@ -1,26 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCardDto } from './dto/create-card.dto';
-import { UpdateCardDto } from './dto/update-card.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Card } from './card.schema';
 
 @Injectable()
 export class CardsService {
-  create(createCardDto: CreateCardDto) {
-    return 'This action adds a new card';
-  }
+  constructor(@InjectModel(Card.name) private cardModel: Model<Card>) {}
 
-  findAll() {
-    return `This action returns all cards`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} card`;
-  }
-
-  update(id: number, updateCardDto: UpdateCardDto) {
-    return `This action updates a #${id} card`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} card`;
+  async deleteStack(stackId: string) {
+    return await this.cardModel.deleteMany({ stack: stackId }).catch((err) => {
+      console.log('cards.service: delete stack error');
+      throw new Error(err.message);
+    });
   }
 }

@@ -9,6 +9,7 @@ import { Messages } from 'src/messages/messages.enum';
 import { CannotUpdateAccountException } from './exceptions/cannot-update-account.exception';
 import * as bcrypt from 'bcrypt';
 import { WrongPasswordException } from './exceptions/wrong-password.exception';
+import { UserNotFoundException } from './exceptions/user-not-found.exception';
 
 @Injectable()
 export class UsersService {
@@ -43,7 +44,7 @@ export class UsersService {
       });
   }
 
-  //update user
+  //update user password
   async updateUser(id: string, userId: string, updateUserDto: UpdateUserDto) {
     if (id !== userId) throw new CannotUpdateAccountException();
     const user = await this.userModel.findById(userId).catch((error) => {
@@ -66,13 +67,32 @@ export class UsersService {
 
   //get by id
   async getOne(id: string) {
+    const user = await this.userModel.findById(id);
+    if (!user) throw new UserNotFoundException();
+    return user;
+  }
+
+  //add stack
+  async addStack(userId: string, stackId: string) {
     return await this.userModel
-      .findById(id)
-      .catch((error) => {
-        throw new Error(error.message);
+      .findByIdAndUpdate(userId, {
+        $push: { stacks: stackId },
       })
-      .then((data) => {
-        return { data, message: Messages.UserFound };
+      .catch((error) => {
+        console.log('Error updating user with a new stack');
+        throw new Error(error.message);
+      });
+  }
+
+  //delete stack
+  async deleteStack(userId: string, stackId: string) {
+    return await this.userModel
+      .findByIdAndUpdate(userId, {
+        $pull: { stacks: stackId },
+      })
+      .catch((error) => {
+        console.log('users.service: delete stack error');
+        throw new Error(error.message);
       });
   }
 }

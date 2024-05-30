@@ -4,17 +4,17 @@ import { Types } from 'mongoose';
 @Schema()
 export class Stack {
   @Prop({
-    required: [true, 'Ttile is required'],
+    required: [true, 'Title is required'],
   })
   title: string;
 
   @Prop({ type: Types.ObjectId, ref: 'User', required: true })
   author: string;
 
-  @Prop({ required: false })
-  saved?: boolean;
+  @Prop({ required: false, default: false })
+  saved: boolean;
 
-  @Prop({ type: [{ type: Types.ObjectId, ref: 'Card' }] })
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Card' }], default: [] })
   cards: Types.ObjectId[];
 }
 
