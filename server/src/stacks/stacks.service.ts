@@ -12,16 +12,15 @@ import { Model } from 'mongoose';
 import { CreateStackDto } from './dto/create-stack.dto';
 import { CardsService } from 'src/cards/cards.service';
 import { Messages } from 'src/messages/messages.enum';
-import { StackNotFound } from './exceptions/stack-not-found.exception';
-import { CannotDeleteStack } from './exceptions/cannot-delete-stack.exception';
 import { UpdateStackDto } from './dto/update-stack.dto';
-import { CannotUpdateStack } from './exceptions/cannot-update-stack.exception';
 import { PageNumberTooLowException } from './exceptions/page-number-too-low.exception';
 import { PageNumberTooHighException } from './exceptions/page-number-too-high.exception';
+import { CannotDoStackOperationException } from './exceptions/cannot-do-stack-operation.exception';
 
 @Injectable()
 export class StacksService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
     @Inject(forwardRef(() => CardsService))
     private cardService: CardsService,
@@ -110,30 +109,18 @@ export class StacksService {
   }
 
   async getOne(userId: string, stackId: string) {
-    //check if stack exists
-    const stack = await this.stackModel.findById(stackId);
-    if (!stack) {
-      throw new StackNotFound();
-    }
-    //check if user exists
+    const stack = await this.validateStackExists(stackId);
     await this.userService.validateUserExists(userId);
-    //check if user is the author of the stack
-    if (stack.author !== userId) throw new Error('User not authorised');
+    await this.validateAuthor(stack.author, userId);
     return stack;
   }
 
   async delete(stackId: string, userId: string) {
-    //check if stack exists
-    const stack = await this.stackModel.findById(stackId);
-    if (!stack) {
-      throw new StackNotFound();
-    }
-    //check if user exists
+    const stack = await this.validateStackExists(stackId);
     await this.userService.validateUserExists(userId);
-    //check if user is the author of the stack
-    if (stack.author !== userId) throw new CannotDeleteStack();
+    await this.validateAuthor(stack.author, userId);
 
-    await this.cardService.deleteStack(stackId);
+    await this.cardService.deleteAllCardsByStack(stackId);
     await this.userService.deleteStack(userId, stackId);
     return await this.stackModel
       .findByIdAndDelete(stackId)
@@ -146,20 +133,22 @@ export class StacksService {
       });
   }
 
+  async deleteAllStacksByAuthor(authorId: string) {
+    try {
+      await this.stackModel.deleteMany({ author: authorId }).exec();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
+  }
+
   async update(
     userId: string,
     stackId: string,
     updateStackDto: UpdateStackDto,
   ) {
-    //check if stack exists
-    const stack = await this.stackModel.findById(stackId);
-    if (!stack) {
-      throw new StackNotFound();
-    }
-    //check if user exists
+    const stack = await this.validateStackExists(stackId);
     await this.userService.validateUserExists(userId);
-    //check if user is the author of the stack
-    if (stack.author !== userId) throw new CannotUpdateStack();
+    await this.validateAuthor(stack.author, userId);
 
     return await this.stackModel
       .findByIdAndUpdate(stackId, updateStackDto)
@@ -179,7 +168,6 @@ export class StacksService {
         .exec();
 
       if (!updatedStack) {
-        console.log(`Stack with id ${stackId} not found`);
         throw new NotFoundException(`Stack with id ${stackId} not found`);
       }
 
@@ -199,5 +187,9 @@ export class StacksService {
       throw new NotFoundException('Stack not found');
     }
     return stack;
+  }
+
+  async validateAuthor(authorId: string, userId: string) {
+    if (authorId !== userId) throw new CannotDoStackOperationException();
   }
 }

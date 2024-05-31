@@ -24,7 +24,7 @@ export class User {
   password: string;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Stack' }] })
-  stacks: Types.ObjectId[];
+  stacks: string[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

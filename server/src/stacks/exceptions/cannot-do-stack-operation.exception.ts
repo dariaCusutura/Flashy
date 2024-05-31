@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { ErrorMessages } from 'src/messages/error-messages.enum';
 
-export class CannotDeleteStack extends HttpException {
+export class CannotDoStackOperationException extends HttpException {
   constructor() {
-    super(ErrorMessages.CannotDeleteStack, HttpStatus.FORBIDDEN);
+    super(ErrorMessages.Unauthorized, HttpStatus.FORBIDDEN);
   }
 }

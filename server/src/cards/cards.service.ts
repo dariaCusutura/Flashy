@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Card } from './card.schema';
@@ -16,7 +21,9 @@ import { CannotDoCardOperationException } from './exceptions/cannot-do-card-oper
 export class CardsService {
   constructor(
     @InjectModel(Card.name) private cardModel: Model<Card>,
+    @Inject(forwardRef(() => UsersService))
     private userService: UsersService,
+    @Inject(forwardRef(() => StacksService))
     private stackService: StacksService,
   ) {}
 
@@ -147,12 +154,20 @@ export class CardsService {
     }
   }
 
-  async deleteStack(stackId: string) {
+  async deleteAllCardsByStack(stackId: string) {
     await this.stackService.validateStackExists(stackId);
     return await this.cardModel.deleteMany({ stack: stackId }).catch((err) => {
       console.log('cards.service: delete stack error');
       throw new Error(err.message);
     });
+  }
+
+  async deleteAllCardsByStacks(stacksIds: string[]) {
+    try {
+      await this.cardModel.deleteMany({ stack: { $in: stacksIds } }).exec();
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 
   async validateAuthor(userId: string, authorId: string) {

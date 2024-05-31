@@ -10,10 +10,16 @@ import { CannotUpdateAccountException } from './exceptions/cannot-update-account
 import * as bcrypt from 'bcrypt';
 import { WrongPasswordException } from './exceptions/wrong-password.exception';
 import { UserNotFoundException } from './exceptions/user-not-found.exception';
+import { StacksService } from 'src/stacks/stacks.service';
+import { CardsService } from 'src/cards/cards.service';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<User>,
+    private stackService: StacksService,
+    private cardService: CardsService,
+  ) {}
 
   //create a new user
   async createUser(createUserDto: CreateUserDto) {
@@ -34,6 +40,9 @@ export class UsersService {
   //delete user
   async deleteUser(id: string, userId: string) {
     if (id !== userId) throw new CannotDeleteAccountException();
+    const user = await this.validateUserExists(id);
+    await this.cardService.deleteAllCardsByStacks(user.stacks);
+    await this.stackService.deleteAllStacksByAuthor(id);
     return await this.userModel
       .findByIdAndDelete(id)
       .catch((error) => {
