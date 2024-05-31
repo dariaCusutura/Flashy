@@ -1,4 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  forwardRef,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UsersService } from 'src/users/users.service';
 import { Stack } from './stack.schema';
@@ -17,13 +23,14 @@ import { PageNumberTooHighException } from './exceptions/page-number-too-high.ex
 export class StacksService {
   constructor(
     private userService: UsersService,
+    @Inject(forwardRef(() => CardsService))
     private cardService: CardsService,
     @InjectModel(Stack.name) private stackModel: Model<Stack>,
   ) {}
 
   async create(userId: string, createStackDto: CreateStackDto) {
     //check if user exists
-    await this.userService.getOne(userId);
+    await this.userService.validateUserExists(userId);
 
     const newStack = new this.stackModel({ ...createStackDto, author: userId });
 
@@ -37,14 +44,26 @@ export class StacksService {
     }
   }
 
-  async getAll(queryParams: any, userId: string) {
+  async getAll(
+    queryParams: { page?: string; saved?: boolean; searchTerm: string },
+    userId: string,
+  ) {
     const { page, ...query } = queryParams;
-    query.author = userId;
+    let finalQuery = {};
+    //not allowing filtering by saved to overlap with searching
+    if (query.searchTerm) {
+      finalQuery = {
+        author: userId,
+        title: { $regex: query.searchTerm, $options: 'i' },
+      };
+    } else {
+      finalQuery = { author: userId, ...query };
+    }
 
     if (page && parseInt(page) < 1) {
       throw new PageNumberTooLowException();
     }
-    const totalStacks = await this.stackModel.countDocuments(query);
+    const totalStacks = await this.stackModel.countDocuments(finalQuery);
     const take = 4;
     const total_pages = Math.ceil(totalStacks / take);
 
@@ -65,7 +84,7 @@ export class StacksService {
       previous_page = 1;
     }
     return await this.stackModel
-      .find(query, null, { skip, limit: take })
+      .find(finalQuery, null, { skip, limit: take })
       .catch((error) => {
         throw new InternalServerErrorException(error);
       })
@@ -90,6 +109,19 @@ export class StacksService {
       });
   }
 
+  async getOne(userId: string, stackId: string) {
+    //check if stack exists
+    const stack = await this.stackModel.findById(stackId);
+    if (!stack) {
+      throw new StackNotFound();
+    }
+    //check if user exists
+    await this.userService.validateUserExists(userId);
+    //check if user is the author of the stack
+    if (stack.author !== userId) throw new Error('User not authorised');
+    return stack;
+  }
+
   async delete(stackId: string, userId: string) {
     //check if stack exists
     const stack = await this.stackModel.findById(stackId);
@@ -97,7 +129,7 @@ export class StacksService {
       throw new StackNotFound();
     }
     //check if user exists
-    await this.userService.getOne(userId);
+    await this.userService.validateUserExists(userId);
     //check if user is the author of the stack
     if (stack.author !== userId) throw new CannotDeleteStack();
 
@@ -125,7 +157,7 @@ export class StacksService {
       throw new StackNotFound();
     }
     //check if user exists
-    await this.userService.getOne(userId);
+    await this.userService.validateUserExists(userId);
     //check if user is the author of the stack
     if (stack.author !== userId) throw new CannotUpdateStack();
 
@@ -140,23 +172,32 @@ export class StacksService {
       });
   }
 
-  async search(term: string, userId: string) {
-    //check if user exists
-    await this.userService.getOne(userId);
+  async deleteCard(cardId: string, stackId: string) {
+    try {
+      const updatedStack = await this.stackModel
+        .findByIdAndUpdate(stackId, { $pull: { cards: cardId } }, { new: true })
+        .exec();
 
-    return await this.stackModel
-      .find({
-        author: userId,
-        title: { $regex: term, $options: 'i' },
-      })
-      .limit(5)
-      .exec()
-      .catch((error) => {
-        throw new InternalServerErrorException(error);
-      })
-      .then((data) => {
-        if (data.length === 0) return '0 stacks found';
-        return data;
-      });
+      if (!updatedStack) {
+        console.log(`Stack with id ${stackId} not found`);
+        throw new NotFoundException(`Stack with id ${stackId} not found`);
+      }
+
+      return updatedStack;
+    } catch (error) {
+      console.log('stack.service: delete card error');
+      throw new Error(error.message);
+    }
+  }
+  async findById(stackId: string, session?: any) {
+    return await this.stackModel.findById(stackId).session(session).exec();
+  }
+
+  async validateStackExists(stackId: string) {
+    const stack = await this.stackModel.findById(stackId);
+    if (!stack) {
+      throw new NotFoundException('Stack not found');
+    }
+    return stack;
   }
 }

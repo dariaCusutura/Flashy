@@ -54,6 +54,12 @@ export class StacksController {
     description: 'Page number for pagination',
   })
   @ApiQuery({
+    name: 'searchTerm',
+    required: false,
+    type: String,
+    description: 'Search stacks by title',
+  })
+  @ApiQuery({
     name: 'saved',
     required: false,
     type: Boolean,
@@ -68,16 +74,16 @@ export class StacksController {
     return this.stacksService.getAll(query, req.user.sub);
   }
 
-  @Get('search')
+  @Get(':id')
   @UseGuards(AuthGuard)
-  @ApiOperation({ summary: 'Search stack' })
-  @ApiResponse({ status: HttpStatus.OK, description: 'Search stack results' })
+  @ApiOperation({ summary: 'Get one stack' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'Stack found' })
   @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: ErrorMessages.InternalServerError,
   })
-  searchStack(@Query('term') term: string, @Request() req) {
-    return this.stacksService.search(term, req.user.sub);
+  getOneStack(@Request() req, @Param('id') stackId: string) {
+    return this.stacksService.getOne(req.user.sub, stackId);
   }
 
   @Delete(':id')

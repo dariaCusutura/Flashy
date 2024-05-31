@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { StacksService } from './stacks.service';
 import { StacksController } from './stacks.controller';
 import { UsersModule } from 'src/users/users.module';
@@ -10,9 +10,10 @@ import { CardsModule } from 'src/cards/cards.module';
   controllers: [StacksController],
   providers: [StacksService],
   imports: [
-    UsersModule,
-    CardsModule,
+    forwardRef(() => UsersModule),
+    forwardRef(() => CardsModule),
     MongooseModule.forFeature([{ name: Stack.name, schema: StackSchema }]),
   ],
+  exports: [StacksService],
 })
 export class StacksModule {}

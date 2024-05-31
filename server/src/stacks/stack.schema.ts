@@ -15,7 +15,7 @@ export class Stack {
   saved: boolean;
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'Card' }], default: [] })
-  cards: Types.ObjectId[];
+  cards: string[];
 }
 
 export const StackSchema = SchemaFactory.createForClass(Stack);

@@ -13,7 +13,7 @@ export class Card {
   })
   answer: string;
 
-  @Prop({ required: false })
+  @Prop({ required: false, default: '' })
   label?: string;
 
   @Prop({ type: Types.ObjectId, ref: 'Stack', required: true })

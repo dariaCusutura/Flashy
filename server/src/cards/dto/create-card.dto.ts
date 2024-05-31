@@ -18,7 +18,6 @@ export class CreateCardDto {
   @ApiProperty()
   stack: string;
 
-  @IsString()
   @ApiPropertyOptional()
   label?: string;
 }

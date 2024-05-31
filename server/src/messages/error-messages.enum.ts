@@ -17,6 +17,9 @@ export enum ErrorMessages {
   CannotUpdateAccount = 'User can not update this account',
   CannotDeleteStack = 'User can not delete this stack',
   CannotUpdateStack = 'User can not update this stack',
+  CannotDeleteCard = 'User can not delete this card',
+  CannotUpdateCard = 'User can not update this card',
+  CannotAddCard = 'User can not add this card',
 
   PageNumberTooHigh = 'Page number exceeds the total number of pages',
   PageNumberTooLow = 'Page number is too low',

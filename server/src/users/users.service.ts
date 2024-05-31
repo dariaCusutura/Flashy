@@ -66,7 +66,7 @@ export class UsersService {
   }
 
   //get by id
-  async getOne(id: string) {
+  async validateUserExists(id: string) {
     const user = await this.userModel.findById(id);
     if (!user) throw new UserNotFoundException();
     return user;

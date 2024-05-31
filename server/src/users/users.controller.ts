@@ -107,6 +107,6 @@ export class UsersController {
     description: ErrorMessages.InternalServerError,
   })
   getOne(@Param('id') id: string) {
-    return this.usersService.getOne(id);
+    return this.usersService.validateUserExists(id);
   }
 }
