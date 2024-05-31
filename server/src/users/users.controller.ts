@@ -5,8 +5,8 @@ import {
   Get,
   HttpStatus,
   Param,
-  Patch,
   Post,
+  Put,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -41,31 +41,25 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete account' })
-  @UseGuards(AuthGuard)
+  @Get(':id')
+  @ApiOperation({ summary: 'Get user info by id' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: Messages.AccountDeleted,
+    description: Messages.UserFound,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: ErrorMessages.UserNotFound,
   })
   @ApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: ErrorMessages.CannotDeleteAccount,
-  })
-  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: ErrorMessages.InternalServerError,
   })
-  deleteUser(@Request() req, @Param('id') id: string) {
-    const userId = req.user.sub;
-    return this.usersService.deleteUser(id, userId);
+  getOne(@Param('id') id: string) {
+    return this.usersService.validateUserExists(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   @ApiOperation({ summary: 'Update account' })
   @UseGuards(AuthGuard)
   @ApiResponse({
@@ -92,21 +86,27 @@ export class UsersController {
     return this.usersService.updateUser(id, req.user.sub, updateUserDto);
   }
 
-  @Get(':id')
-  @ApiOperation({ summary: 'Get user info by id' })
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete account' })
+  @UseGuards(AuthGuard)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: Messages.UserFound,
+    description: Messages.AccountDeleted,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
     description: ErrorMessages.UserNotFound,
   })
   @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: ErrorMessages.CannotDeleteAccount,
+  })
+  @ApiResponse({
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: ErrorMessages.InternalServerError,
   })
-  getOne(@Param('id') id: string) {
-    return this.usersService.validateUserExists(id);
+  deleteUser(@Request() req, @Param('id') id: string) {
+    const userId = req.user.sub;
+    return this.usersService.deleteUser(id, userId);
   }
 }

@@ -24,6 +24,25 @@ import { UpdateCardDto } from './dto/update-card.dto';
 export class CardsController {
   constructor(private readonly cardsService: CardsService) {}
 
+  @Post()
+  @UseGuards(AuthGuard)
+  @ApiOperation({ summary: 'Add a new card' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: Messages.CardCreated,
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: ErrorMessages.BadRequest,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: ErrorMessages.InternalServerError,
+  })
+  addCard(@Request() req, @Body() createCardDto: CreateCardDto) {
+    return this.cardsService.add(createCardDto, req.user.sub);
+  }
+
   @Get()
   @ApiOperation({ summary: 'Get all cards' })
   @ApiQuery({
@@ -68,25 +87,6 @@ export class CardsController {
   })
   getOneCard(@Param('cardId') cardId: string) {
     return this.cardsService.getOne(cardId);
-  }
-
-  @Post()
-  @UseGuards(AuthGuard)
-  @ApiOperation({ summary: 'Add a new card' })
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: Messages.CardCreated,
-  })
-  @ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: ErrorMessages.BadRequest,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: ErrorMessages.InternalServerError,
-  })
-  addCard(@Request() req, @Body() createCardDto: CreateCardDto) {
-    return this.cardsService.add(createCardDto, req.user.sub);
   }
 
   @Put(':id')

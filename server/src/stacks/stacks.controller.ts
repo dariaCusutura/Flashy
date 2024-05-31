@@ -86,29 +86,6 @@ export class StacksController {
     return this.stacksService.getOne(req.user.sub, stackId);
   }
 
-  @Delete(':id')
-  @ApiOperation({ summary: 'Delete stack' })
-  @UseGuards(AuthGuard)
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: Messages.StackDeleted,
-  })
-  @ApiResponse({
-    status: HttpStatus.NOT_FOUND,
-    description: ErrorMessages.StackNotFound,
-  })
-  @ApiResponse({
-    status: HttpStatus.FORBIDDEN,
-    description: ErrorMessages.CannotDeleteStack,
-  })
-  @ApiResponse({
-    status: HttpStatus.INTERNAL_SERVER_ERROR,
-    description: ErrorMessages.InternalServerError,
-  })
-  deleteStack(@Request() req, @Param('id') stackId: string) {
-    return this.stacksService.delete(stackId, req.user.sub);
-  }
-
   @Put(':id')
   @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Update stack' })
@@ -134,5 +111,28 @@ export class StacksController {
     @Body() updateStackDto: UpdateStackDto,
   ) {
     return this.stacksService.update(req.user.sub, stackId, updateStackDto);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete stack' })
+  @UseGuards(AuthGuard)
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: Messages.StackDeleted,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: ErrorMessages.StackNotFound,
+  })
+  @ApiResponse({
+    status: HttpStatus.FORBIDDEN,
+    description: ErrorMessages.CannotDeleteStack,
+  })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: ErrorMessages.InternalServerError,
+  })
+  deleteStack(@Request() req, @Param('id') stackId: string) {
+    return this.stacksService.delete(stackId, req.user.sub);
   }
 }
