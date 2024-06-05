@@ -1,16 +1,33 @@
-import { Inter } from "next/font/google";
+"use client";
+import { usePathname } from "next/navigation";
+import { Routes } from "@/routes";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
-import { Box } from "@chakra-ui/react";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
+  // Determine the mode based on the current route
+  const getMode = (pathname: string) => {
+    switch (pathname) {
+      case Routes.HOME:
+        return "home";
+      case Routes.LOGIN:
+        return "login";
+      case Routes.SIGNUP:
+        return "signup";
+      default:
+        return "";
+    }
+  };
+
+  const mode = getMode(pathname);
+
   return (
     <html lang="en">
       <head>
@@ -18,22 +35,8 @@ export default function RootLayout({
       </head>
       <body>
         <Providers>
-          <Box
-            bgImage={"./background.svg"}
-            bgSize="cover"
-            bgPosition="center"
-            position="fixed"
-            top={0}
-            left={0}
-            h="100vh"
-            w="100vw"
-            m={0}
-            p={0}
-            overflowY="auto"
-          >
-            <Navbar mode="home" />
-            {children}
-          </Box>
+          <Navbar mode={mode} />
+          {children}
         </Providers>
       </body>
     </html>

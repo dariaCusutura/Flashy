@@ -1,4 +1,5 @@
 "use client";
+import { Routes } from "@/routes";
 import { Box, Button, Flex, Image, Stack } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
@@ -42,6 +43,8 @@ const Navbar = ({ mode }: Props) => {
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>
             <Button
+              as={Link}
+              href={Routes.LOGIN}
               bg={"#D7D7D7"}
               border="2px"
               borderColor={"#7C7C7C"}
@@ -54,6 +57,8 @@ const Navbar = ({ mode }: Props) => {
               Login
             </Button>
             <Button
+              as={Link}
+              href={Routes.SIGNUP}
               height={35}
               width={85}
               borderRadius={"0.8rem"}
