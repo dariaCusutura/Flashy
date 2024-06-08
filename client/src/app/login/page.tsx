@@ -3,9 +3,7 @@ import {
   Button,
   Center,
   Container,
-  Flex,
   FormControl,
-  FormLabel,
   Input,
   InputGroup,
   InputLeftElement,
@@ -19,17 +17,24 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React, { ReactEventHandler } from "react";
+import React, { useState, useContext } from "react";
 import NextLink from "next/link";
 import { Colors } from "@/colors";
 import { Routes } from "@/routes";
-import { LuUser } from "react-icons/lu";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { TbLock } from "react-icons/tb";
-import { TbLockCheck } from "react-icons/tb";
-import { useRouter } from "next/navigation";
+import { AuthContext } from "@/AuthProvider";
 
 const page = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const { login } = useContext(AuthContext);
+
+  const handleLoginButtonClick = async () => {
+    const { message } = await login(email, password);
+    if (message) setErrorMessage(message);
+  };
 
   return (
     <Center>
@@ -91,6 +96,10 @@ const page = () => {
                         variant={"filled"}
                         style={{ boxShadow: "4px 4px 12px 0 rgba(0,0,0,0.3)" }}
                         placeholder="Enter your email..."
+                        onChange={(e) => {
+                          e.preventDefault();
+                          setEmail(e.target.value);
+                        }}
                       />
                     </InputGroup>
                   </FormControl>
@@ -108,9 +117,18 @@ const page = () => {
                         variant={"filled"}
                         style={{ boxShadow: "4px 4px 12px 0 rgba(0,0,0,0.3)" }}
                         placeholder="Enter your password..."
+                        onChange={(e) => {
+                          e.preventDefault();
+                          setPassword(e.target.value);
+                        }}
                       />
                     </InputGroup>
                   </FormControl>
+                  {errorMessage && (
+                    <Text color={"red"} marginTop={-5} marginBottom={-5}>
+                      {errorMessage}
+                    </Text>
+                  )}
                   <Button
                     width={"100%"}
                     size={"lg"}
@@ -122,6 +140,7 @@ const page = () => {
                     color={"#EEEEEE"}
                     _hover={{ bg: "#A94402" }}
                     boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
+                    onClick={handleLoginButtonClick}
                   >
                     Login
                   </Button>

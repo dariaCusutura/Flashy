@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/sign-up.dto';
 import { SignInDto } from './dto/sign-in.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Messages } from 'src/messages/messages.enum';
+import { ErrorMessages } from 'src/messages/error-messages.enum';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -17,6 +19,11 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Login' })
+  @ApiResponse({ status: HttpStatus.OK, description: Messages.LoggedIn })
+  @ApiResponse({
+    status: HttpStatus.INTERNAL_SERVER_ERROR,
+    description: ErrorMessages.InternalServerError,
+  })
   signIn(@Body() signInDto: SignInDto) {
     return this.authService.signIn(signInDto);
   }
