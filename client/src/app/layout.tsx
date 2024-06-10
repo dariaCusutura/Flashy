@@ -4,6 +4,7 @@ import { Routes } from "@/routes";
 import "./globals.css";
 import { Providers } from "./providers";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
   children,
@@ -36,6 +37,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Navbar mode={mode} />
+          <Toaster position="bottom-center" />
           {children}
         </Providers>
       </body>

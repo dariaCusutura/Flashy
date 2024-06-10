@@ -3,6 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
+import { env } from 'process';
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors({
-    origin: 'http://localhost:8080',
+    origin: env.CORS_ORIGIN,
     credentials: true,
   });
 
