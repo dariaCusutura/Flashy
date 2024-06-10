@@ -29,6 +29,7 @@ const SearchBar = ({ mode }: Props) => {
           bg={Colors.background}
           _focus={{
             borderColor: "transparent",
+            boxShadow: "2px 2px 5px 0 rgba(0,0,0,0.7)",
           }}
         />
       </InputGroup>

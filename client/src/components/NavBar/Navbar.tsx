@@ -5,6 +5,7 @@ import { Box, Button, Flex, Image, Stack } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import SearchBar from "./SearchBar";
+import BurgerMenu from "./BurgerMenu";
 
 interface Props {
   mode: string;
@@ -28,7 +29,7 @@ const Navbar = ({ mode }: Props) => {
           as={Link}
           href={"/"}
           _hover={{ bg: "transparent" }}
-          marginLeft={10}
+          marginLeft={{ lg: 10, md: 10, base: -4 }}
         >
           {mode !== "home" && (
             <Image
@@ -38,11 +39,13 @@ const Navbar = ({ mode }: Props) => {
                   : "./lightLogo.png"
               }
               alt="logo"
-              width={{ lg: 150, md: 150, base: 100 }}
+              boxSize={{ lg: 150, md: 150, base: 200 }} // Set responsive size
+              objectFit="contain"
             />
           )}
         </Button>
         <SearchBar mode={mode} />
+        {mode === "stacks" && <BurgerMenu />}
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>
             <Button
