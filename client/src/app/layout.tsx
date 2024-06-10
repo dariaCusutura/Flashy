@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { Routes } from "@/routes";
 import "./globals.css";
 import { Providers } from "./providers";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/NavBar/Navbar";
 import { Toaster } from "react-hot-toast";
 
 export default function RootLayout({
@@ -22,6 +22,8 @@ export default function RootLayout({
         return "login";
       case Routes.SIGNUP:
         return "signup";
+      case Routes.MY_STACKS:
+        return "stacks";
       default:
         return "";
     }

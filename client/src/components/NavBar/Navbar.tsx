@@ -1,11 +1,13 @@
 "use client";
+import { Colors } from "@/colors";
 import { Routes } from "@/routes";
 import { Box, Button, Flex, Image, Stack } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
+import SearchBar from "./SearchBar";
 
 interface Props {
-  mode?: string;
+  mode: string;
 }
 
 const Navbar = ({ mode }: Props) => {
@@ -18,6 +20,7 @@ const Navbar = ({ mode }: Props) => {
       width="100%"
       zIndex={1000}
       boxShadow="0 2px 4px rgba(0, 0, 0, 0.3)"
+      bg={mode === "stacks" ? Colors.background : undefined}
     >
       <Flex alignItems="center" h={10} justifyContent="space-between">
         <Button
@@ -25,21 +28,21 @@ const Navbar = ({ mode }: Props) => {
           as={Link}
           href={"/"}
           _hover={{ bg: "transparent" }}
+          marginLeft={10}
         >
-          {mode === "signup" || mode === "login" || mode === "home" ? (
+          {mode !== "home" && (
             <Image
-              src="./darkLogo.png"
-              alt="logo"
-              width={{ lg: 150, md: 150, base: 130 }}
-            />
-          ) : (
-            <Image
-              src="./lightLogo.png"
+              src={
+                mode === "signup" || mode === "login"
+                  ? "./darkLogo.png"
+                  : "./lightLogo.png"
+              }
               alt="logo"
               width={{ lg: 150, md: 150, base: 100 }}
             />
           )}
         </Button>
+        <SearchBar mode={mode} />
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>
             <Button
