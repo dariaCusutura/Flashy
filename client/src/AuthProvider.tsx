@@ -28,7 +28,7 @@ interface AuthContextProps {
     email: string,
     password: string,
     confirmPassword: string
-  ) => Promise<void>;
+  ) => Promise<{ message: string | undefined }>;
   logout: () => void;
 }
 
@@ -71,7 +71,6 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
       } else {
         console.error("[AuthProvider] Login failed", data.message);
         toast.dismiss();
-        Array.isArray;
         if (Array.isArray(data.message)) return { message: data.message[0] };
         else return { message: data.message };
       }
@@ -87,7 +86,40 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
     email: string,
     password: string,
     confirmPassword: string
-  ) => {};
+  ) => {
+    toast.loading("Signing up...");
+    try {
+      const response = await fetch(`${BACKEND_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          confirmPassword,
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        toast.dismiss();
+        toast.success(data.message);
+        console.log("[AuthProvider] Registering successful:", data);
+        router.push(Routes.LOGIN);
+        return { message: undefined };
+      } else {
+        console.error("[AuthProvider] Register failed", data.message);
+        toast.dismiss();
+        if (Array.isArray(data.message)) return { message: data.message[0] };
+        else return { message: data.message };
+      }
+    } catch (error) {
+      console.error("[AuthProvider] Register error", error);
+      toast.dismiss();
+      return { message: "An unexpected error occurred" };
+    }
+  };
 
   const logout = () => {};
 
