@@ -26,7 +26,7 @@ const MyAccountButton = () => {
   const [newPassword, setNewPassword] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | undefined>();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { updateAccount } = useAccount();
+  const { updateAccount, deleteAccount } = useAccount();
 
   const manageSaveButtonClick = async () => {
     const message = await updateAccount(user?.id, {
@@ -37,6 +37,9 @@ const MyAccountButton = () => {
       if (Array.isArray(message)) setErrorMessage(message[0]);
       else setErrorMessage(message);
     }
+  };
+  const manageDeleteButtonClick = async () => {
+    await deleteAccount(user?.id);
   };
 
   return (
@@ -110,9 +113,10 @@ const MyAccountButton = () => {
               )}
             </VStack>
           </ModalBody>
-
           <ModalFooter bg={Colors.background}>
-            <DeleteAccountButton />
+            <DeleteAccountButton
+              deleteAccountButtonClick={manageDeleteButtonClick}
+            />
             <Button
               borderRadius={"0.9rem"}
               bg={"#BA4A00"}
