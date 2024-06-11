@@ -40,7 +40,7 @@ const DeleteAccountButton = ({ deleteAccountButtonClick }: Props) => {
         onClose={onClose}
       >
         <AlertDialogOverlay>
-          <AlertDialogContent borderRadius={"0.9rem"} overflow="hidden">
+          <AlertDialogContent borderRadius={"0.9rem"} overflow="hidden" marginLeft={5} marginRight={5}>
             <AlertDialogHeader
               fontSize="lg"
               fontWeight="bold"
@@ -60,8 +60,8 @@ const DeleteAccountButton = ({ deleteAccountButtonClick }: Props) => {
                 mr={3}
                 border="2px"
                 borderRadius={"0.9rem"}
-                borderColor={Colors.orange}
-                color={Colors.orange}
+                borderColor={"#7C7C7C"}
+                color={"#7C7C7C"}
                 bg={Colors.lightGray}
                 boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
               >
@@ -74,10 +74,10 @@ const DeleteAccountButton = ({ deleteAccountButtonClick }: Props) => {
                 }}
                 bg={"#D7D7D7"}
                 border="2px"
-                borderColor={"#7C7C7C"}
-                color={"#7C7C7C"}
                 borderRadius={"0.9rem"}
                 boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
+                borderColor={Colors.orange}
+                color={Colors.orange}
               >
                 Delete
               </Button>

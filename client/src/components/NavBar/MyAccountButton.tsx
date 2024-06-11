@@ -52,9 +52,15 @@ const MyAccountButton = () => {
         My Account
       </MenuItem>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          onClose();
+          setErrorMessage(undefined);
+        }}
+      >
         <ModalOverlay />
-        <ModalContent borderRadius={"0.9rem"} overflow="hidden">
+        <ModalContent borderRadius={"0.9rem"} overflow="hidden" marginLeft={7} marginRight={7}>
           <ModalHeader color={Colors.text} bg={Colors.background}>
             My Account
           </ModalHeader>
