@@ -16,6 +16,7 @@ const SearchBar = ({ mode }: Props) => {
           children={<IoSearch color={Colors.text} size={20} />}
         />
         <Input
+          id="search"
           placeholder="Search a stack..."
           _placeholder={{ color: Colors.text }}
           color={Colors.text}

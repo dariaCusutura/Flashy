@@ -11,12 +11,13 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
+import MyAccountButton from "./MyAccountButton";
 
 const BurgerMenu = () => {
   const { logout } = useContext(AuthContext);
 
-  const manageLogoutClick = async () => {
-    await logout();
+  const manageLogoutClick = () => {
+    logout();
   };
 
   return (
@@ -25,16 +26,18 @@ const BurgerMenu = () => {
         as={IconButton}
         variant="ghost"
         _hover={{ bg: Colors.lightGray }}
-        _active={{ bg: "transparent" }}
+        _active={{ bg: Colors.lightGray }}
         marginRight={{ lg: 10, md: 10, base: -2 }}
         marginLeft={"7px"}
         icon={<RxHamburgerMenu size={25} />}
       />
       <MenuList bg={Colors.background}>
-        <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }}>
-          My Account
-        </MenuItem>
-        <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }} onClick={manageLogoutClick}>
+        <MyAccountButton />
+        <MenuItem
+          bg={Colors.background}
+          _hover={{ bg: Colors.lightGray }}
+          onClick={manageLogoutClick}
+        >
           Logout
         </MenuItem>
       </MenuList>

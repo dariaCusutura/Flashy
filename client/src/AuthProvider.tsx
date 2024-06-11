@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from "react";
+import React, { createContext, useEffect, useMemo, useState } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useRouter } from "next/navigation";
@@ -35,7 +35,7 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 
 const AuthProvider = ({ children }: React.PropsWithChildren) => {
-  const [user, setUser] = useState<AuthUser | undefined>(undefined);
+  const [user, setUser] = useState<AuthUser>({} as AuthUser);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -123,7 +123,7 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
 
   const logout = () => {
     Cookies.remove("access_token");
-    setUser(undefined);
+    setUser({} as AuthUser);
     console.log("[AuthProvider] Logged out");
     toast.success("Logged out successfully!");
     router.push(Routes.HOME);
@@ -137,8 +137,24 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
       register,
       logout,
     }),
-    [user, loading]
+    [user, loading, login, logout]
   );
+
+  useEffect(() => {
+    const token = Cookies.get("access_token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token) as DecodedToken;
+        setUser({
+          id: decoded.sub,
+          email: decoded.email,
+          name: decoded.name,
+        });
+      } catch (error) {
+        console.error("[AuthProvider] Failed to decode JWT", error);
+      }
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
