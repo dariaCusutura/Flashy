@@ -3,8 +3,8 @@ import { IsEmail, MaxLength, IsNotEmpty, IsString } from 'class-validator';
 
 export class SignInDto {
   @IsNotEmpty({ message: 'Email is required' })
-  @IsEmail({}, { message: 'Email format is invalid' })
   @MaxLength(50, { message: 'Email cannot be longer than 50 characters' })
+  @IsEmail({}, { message: 'Email format is invalid' })
   @ApiProperty()
   email: string;
 

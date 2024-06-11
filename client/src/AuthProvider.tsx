@@ -121,7 +121,13 @@ const AuthProvider = ({ children }: React.PropsWithChildren) => {
     }
   };
 
-  const logout = () => {};
+  const logout = () => {
+    Cookies.remove("access_token");
+    setUser(undefined);
+    console.log("[AuthProvider] Logged out");
+    toast.success("Logged out successfully!");
+    router.push(Routes.HOME);
+  };
 
   const contextValue = useMemo<AuthContextProps>(
     () => ({

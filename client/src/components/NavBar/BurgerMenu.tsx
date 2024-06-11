@@ -1,3 +1,4 @@
+import { AuthContext } from "@/AuthProvider";
 import { Colors } from "@/colors";
 import {
   Box,
@@ -8,10 +9,16 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 
 const BurgerMenu = () => {
+  const { logout } = useContext(AuthContext);
+
+  const manageLogoutClick = async () => {
+    await logout();
+  };
+
   return (
     <Menu offset={[0, 10]}>
       <MenuButton
@@ -27,7 +34,7 @@ const BurgerMenu = () => {
         <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }}>
           My Account
         </MenuItem>
-        <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }}>
+        <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }} onClick={manageLogoutClick}>
           Logout
         </MenuItem>
       </MenuList>

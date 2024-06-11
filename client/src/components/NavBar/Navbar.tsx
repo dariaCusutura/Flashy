@@ -26,8 +26,6 @@ const Navbar = ({ mode }: Props) => {
       <Flex alignItems="center" h={10} justifyContent="space-between">
         <Button
           variant="ghost"
-          as={Link}
-          href={"/"}
           _hover={{ bg: "transparent" }}
           marginLeft={{ lg: 10, md: 10, base: -4 }}
         >
