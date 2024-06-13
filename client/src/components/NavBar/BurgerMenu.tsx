@@ -31,7 +31,10 @@ const BurgerMenu = () => {
         marginLeft={"7px"}
         icon={<RxHamburgerMenu size={25} />}
       />
-      <MenuList bg={Colors.background}>
+      <MenuList
+        bg={Colors.background}
+        boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
+      >
         <MyAccountButton />
         <MenuItem
           bg={Colors.background}

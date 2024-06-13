@@ -24,8 +24,8 @@ const AddStackButton = () => {
         marginRight={"20px"}
         size={"lg"}
         position="fixed"
-        bottom="50px"
-        right="35px"
+        bottom={{ lg: "50px", md: "30px", base: "10px" }}
+        right={{ lg: "30px", md: "20px", base: "0" }}
       />
     </Tooltip>
   );

@@ -32,12 +32,17 @@ const page = () => {
       <VStack
         width="100%"
         marginTop={"80px"}
-        spacing={6}
+        spacing={{ md: 10, lg: 10, base: 5 }}
         alignItems="flex-start"
-        marginBottom={'30px'}
+        marginBottom={"30px"}
       >
         <HStack spacing={5}>
-          <Heading color={Colors.text} fontWeight="normal" marginLeft={"135px"}>
+          <Heading
+            color={Colors.text}
+            fontWeight="normal"
+            marginLeft={{ md: "100px", lg: "100px", xl: "700px", base: "50px" }}
+            size={{ md: "lg", lg: "lg", xl: "xl", base: "lg" }}
+          >
             My Stacks
           </Heading>
           <IconButton
@@ -50,7 +55,7 @@ const page = () => {
         </HStack>
         <StackGrid />
         <StackPagination />
-        <AddStackButton/>
+        <AddStackButton />
       </VStack>
     </Box>
   );
