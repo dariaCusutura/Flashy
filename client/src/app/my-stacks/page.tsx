@@ -1,4 +1,5 @@
 import { Colors } from "@/colors";
+import AddStackButton from "@/components/StacksPage/AddStackButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
 import StackPagination from "@/components/StacksPage/StackPagination";
 import {
@@ -49,6 +50,7 @@ const page = () => {
         </HStack>
         <StackGrid />
         <StackPagination />
+        <AddStackButton/>
       </VStack>
     </Box>
   );
