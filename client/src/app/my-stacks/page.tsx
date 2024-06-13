@@ -1,5 +1,6 @@
 import { Colors } from "@/colors";
 import StackGrid from "@/components/StacksPage/StackGrid";
+import StackPagination from "@/components/StacksPage/StackPagination";
 import {
   Text,
   Box,
@@ -27,9 +28,15 @@ const page = () => {
       bgSize="cover"
       zIndex={1000}
     >
-      <VStack width="100%" marginTop={"80px"} spacing={6} alignItems="flex-start">
+      <VStack
+        width="100%"
+        marginTop={"80px"}
+        spacing={6}
+        alignItems="flex-start"
+        marginBottom={'30px'}
+      >
         <HStack spacing={5}>
-          <Heading color={Colors.text} fontWeight="normal" marginLeft={'135px'}>
+          <Heading color={Colors.text} fontWeight="normal" marginLeft={"135px"}>
             My Stacks
           </Heading>
           <IconButton
@@ -40,7 +47,8 @@ const page = () => {
             _active={{ bg: Colors.lightGray }}
           />
         </HStack>
-        <StackGrid/>
+        <StackGrid />
+        <StackPagination />
       </VStack>
     </Box>
   );
