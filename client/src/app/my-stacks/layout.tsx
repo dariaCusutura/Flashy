@@ -1,3 +1,4 @@
+import { Colors } from "@/colors";
 import { Box } from "@chakra-ui/react";
 
 export default function LoginLayout({
@@ -5,5 +6,9 @@ export default function LoginLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <Box>{children}</Box>;
+  return (
+    <Box>
+      {children}
+    </Box>
+  );
 }
