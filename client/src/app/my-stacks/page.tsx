@@ -12,16 +12,20 @@ import {
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { LuFilterX } from "react-icons/lu";
 
 const page = () => {
-  const [page, setPage] = useState<number>();
+  const [page, setPage] = useState<number>(1);
   const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
 
   useEffect(() => {
     getStacks(page);
+  }, [page]);
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [page]);
 
   return (
@@ -63,7 +67,7 @@ const page = () => {
           />
         </HStack>
         <StackGrid stacks={stacks} />
-        <StackPagination />
+        <StackPagination paginationInfo={paginationInfo} setPage={setPage} />
         <AddStackButton />
       </VStack>
     </Box>
