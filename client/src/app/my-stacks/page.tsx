@@ -1,7 +1,9 @@
+"use client";
 import { Colors } from "@/colors";
 import AddStackButton from "@/components/StacksPage/AddStackButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
 import StackPagination from "@/components/StacksPage/StackPagination";
+import useGetStacks from "@/hooks/useGetStacks";
 import {
   Text,
   Box,
@@ -10,11 +12,18 @@ import {
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { LuFilterX } from "react-icons/lu";
 
 const page = () => {
+  const [page, setPage] = useState<number>();
+  const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
+
+  useEffect(() => {
+    getStacks(page);
+  }, [page]);
+
   return (
     <Box
       top={0}
@@ -53,7 +62,7 @@ const page = () => {
             _active={{ bg: Colors.lightGray }}
           />
         </HStack>
-        <StackGrid />
+        <StackGrid stacks={stacks} />
         <StackPagination />
         <AddStackButton />
       </VStack>

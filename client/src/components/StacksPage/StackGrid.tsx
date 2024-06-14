@@ -1,8 +1,14 @@
+"use client";
 import { Grid, SimpleGrid } from "@chakra-ui/react";
 import React from "react";
 import StackCard from "./StackCard";
+import { Stack } from "@/hooks/useGetStacks";
 
-const StackGrid = () => {
+interface Props {
+  stacks: Stack[];
+}
+
+const StackGrid = ({ stacks }: Props) => {
   return (
     <Grid
       templateRows="repeat(2, 1fr)"
@@ -14,7 +20,9 @@ const StackGrid = () => {
       gap={{ xl: "50px", lg: 10, md: "50px", base: "30px" }}
       alignSelf="center"
     >
-      <StackCard />
+      {stacks.map((stack, index) => (
+        <StackCard key={index} stack={stack} />
+      ))}
     </Grid>
   );
 };

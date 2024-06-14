@@ -1,6 +1,6 @@
 import { AuthContext } from "@/AuthProvider";
 import { BACKEND_URL } from "@/constants";
-import { UpdateAccountDTO } from "@/dtos/updateAccountDto";
+import { UpdateAccountDTO } from "@/dtos/UpdateAccountDTO";
 import Cookies from "js-cookie";
 import { useContext } from "react";
 import toast from "react-hot-toast";
