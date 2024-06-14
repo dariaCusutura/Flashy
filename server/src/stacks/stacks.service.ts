@@ -63,7 +63,7 @@ export class StacksService {
       throw new PageNumberTooLowException();
     }
     const totalStacks = await this.stackModel.countDocuments(finalQuery);
-    const take = 4;
+    const take = 6;
     const total_pages = Math.ceil(totalStacks / take);
 
     if (page && parseInt(page) > total_pages && total_pages !== 0) {
@@ -90,7 +90,10 @@ export class StacksService {
       .then((data) => {
         const stacks = data.map((stack) => {
           return {
-            ...stack,
+            _id: stack._id,
+            title: stack.title,
+            author: stack.author,
+            saved: stack.saved,
             cardsNumber: stack.cards.length,
           };
         });

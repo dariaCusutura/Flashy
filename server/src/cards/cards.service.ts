@@ -71,7 +71,7 @@ export class CardsService {
     }
 
     const totalCards = await this.cardModel.countDocuments(finalQuery);
-    const take = 4;
+    const take = 6;
     const totalPages = Math.ceil(totalCards / take);
 
     if (currentPage > totalPages && totalPages !== 0) {
