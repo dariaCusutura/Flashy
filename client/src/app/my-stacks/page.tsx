@@ -24,10 +24,6 @@ const page = () => {
     getStacks(page);
   }, [page]);
 
-  useLayoutEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [page]);
-
   return (
     <Box
       top={0}
@@ -66,7 +62,8 @@ const page = () => {
             _active={{ bg: Colors.lightGray }}
           />
         </HStack>
-        <StackGrid stacks={stacks} />
+        {paginationInfo.records_on_page === 0 && <Text>0 stacks found</Text>}
+        <StackGrid stacks={stacks} loadingStacks={loadingStacks} />
         <StackPagination paginationInfo={paginationInfo} setPage={setPage} />
         <AddStackButton />
       </VStack>

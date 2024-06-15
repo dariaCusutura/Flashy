@@ -47,7 +47,8 @@ const StackPagination = ({ paginationInfo, setPage }: Props) => {
         _hover={{ bg: "#C9C6C6" }}
         onClick={() => setPage(paginationInfo.next_page)}
         isDisabled={
-          paginationInfo.current_page === paginationInfo.total_pages
+          paginationInfo.current_page === paginationInfo.total_pages ||
+          paginationInfo.total_pages === 0
             ? true
             : false
         }

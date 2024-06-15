@@ -26,7 +26,7 @@ export default function useGetStacks() {
   const [paginationInfo, setPaginationInfo] = useState<PaginationInfo>(
     {} as PaginationInfo
   );
-  const [loadingStacks, setLoadingStacks] = useState(false);
+  const [loadingStacks, setLoadingStacks] = useState<boolean>(true);
   const { logout } = useContext(AuthContext);
 
   const getStacks = async (

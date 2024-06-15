@@ -6,9 +6,10 @@ import { Stack } from "@/hooks/useGetStacks";
 
 interface Props {
   stacks: Stack[];
+  loadingStacks: boolean;
 }
 
-const StackGrid = ({ stacks }: Props) => {
+const StackGrid = ({ stacks, loadingStacks }: Props) => {
   return (
     <Grid
       templateRows="repeat(2, 1fr)"
@@ -21,7 +22,7 @@ const StackGrid = ({ stacks }: Props) => {
       alignSelf="center"
     >
       {stacks.map((stack, index) => (
-        <StackCard key={index} stack={stack} />
+        <StackCard key={index} stack={stack} loadingStacks={loadingStacks} />
       ))}
     </Grid>
   );
