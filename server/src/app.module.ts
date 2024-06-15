@@ -9,7 +9,7 @@ import { AppController } from './app.controller';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost/Flashy'),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
     UsersModule,
     AuthModule,
     CardsModule,
