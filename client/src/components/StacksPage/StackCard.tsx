@@ -14,9 +14,10 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import React from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
+
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
+import StackMenu from "./StackMenu";
 
 interface Props {
   stack: Stack;
@@ -24,25 +25,6 @@ interface Props {
 }
 
 const StackCard = ({ stack, loadingStacks }: Props) => {
-  if (loadingStacks) {
-    return (
-      // Render loading skeletons or placeholders
-      // Example using Chakra UI Skeleton component
-      <GridItem>
-        <Card
-          bg={Colors.background}
-          width="fit-content"
-          boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
-          padding="1rem"
-        >
-          <Skeleton height="20px" mb="1rem" />
-          <Skeleton height="16px" mb="1rem" />
-          <Skeleton height="12px" width="50%" />
-        </Card>
-      </GridItem>
-    );
-  }
-
   return (
     <GridItem>
       <Card
@@ -56,15 +38,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               {" "}
               {stack.title}
             </Heading>
-            <IconButton
-              aria-label="stackMenu"
-              icon={<BsThreeDotsVertical size={20} />}
-              variant="ghost"
-              size={"sm"}
-              _hover={{ bg: Colors.lightGray }}
-              _active={{ bg: Colors.lightGray }}
-              marginRight={-3}
-            />
+            <StackMenu />
           </HStack>
         </CardHeader>
         <CardBody paddingTop={0}>
