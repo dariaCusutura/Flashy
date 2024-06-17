@@ -25,7 +25,7 @@ const useDeleteStack = (id: string): (() => Promise<void>) => {
         },
       });
       const data = await response.json();
-      if (response.ok) {
+      if (response.status === 200) {
         toast.success(data.message);
         console.log(`[useDeleteStack]: ${data.message}`);
       } else {

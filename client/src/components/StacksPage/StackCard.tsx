@@ -18,6 +18,7 @@ import React from "react";
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
 import StackMenu from "./StackMenu";
+import useUpdateStack from "@/hooks/useUpdateStack";
 
 interface Props {
   stack: Stack;
@@ -25,6 +26,8 @@ interface Props {
 }
 
 const StackCard = ({ stack, loadingStacks }: Props) => {
+  const updateStack = useUpdateStack(stack._id);
+
   return (
     <GridItem>
       <Card
@@ -38,7 +41,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               {" "}
               {stack.title}
             </Heading>
-            <StackMenu stackId={stack._id} />
+            <StackMenu stackId={stack._id} stackTitle={stack.title} />
           </HStack>
         </CardHeader>
         <CardBody paddingTop={0}>

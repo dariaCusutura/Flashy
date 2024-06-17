@@ -160,7 +160,7 @@ export class StacksService {
         throw new Error(error.message);
       })
       .then(() => {
-        return { messsage: Messages.StackUpdated };
+        return { message: Messages.StackUpdated };
       });
   }
 
