@@ -90,7 +90,7 @@ export class StacksService {
       .then((data) => {
         const stacks = data.map((stack) => {
           return {
-            _id: stack._id,
+            _id: stack._id.toString(),
             title: stack.title,
             author: stack.author,
             saved: stack.saved,
@@ -132,7 +132,7 @@ export class StacksService {
         throw new Error(err.message);
       })
       .then(() => {
-        return Messages.StackDeleted;
+        return { message: Messages.StackDeleted };
       });
   }
 

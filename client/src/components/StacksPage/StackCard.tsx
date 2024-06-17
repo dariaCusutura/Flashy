@@ -38,7 +38,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               {" "}
               {stack.title}
             </Heading>
-            <StackMenu />
+            <StackMenu stackId={stack._id} />
           </HStack>
         </CardHeader>
         <CardBody paddingTop={0}>

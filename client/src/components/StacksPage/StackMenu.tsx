@@ -10,7 +10,11 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DeleteStackButton from "./DeleteStackButton";
 
-const StackMenu = () => {
+interface Props {
+  stackId: string;
+}
+
+const StackMenu = ({ stackId }: Props) => {
   return (
     <Menu>
       <MenuButton
@@ -29,7 +33,7 @@ const StackMenu = () => {
         <MenuItem bg={Colors.background} _hover={{ bg: Colors.lightGray }}>
           Edit title
         </MenuItem>
-        <DeleteStackButton />
+        <DeleteStackButton stackId={stackId} />
       </MenuList>
     </Menu>
   );
