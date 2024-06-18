@@ -5,6 +5,7 @@ import { Types } from 'mongoose';
 export class Stack {
   @Prop({
     required: [true, 'Title is required'],
+    maxLength: [20, 'Title cannot be longer than 20 characters'],
   })
   title: string;
 
