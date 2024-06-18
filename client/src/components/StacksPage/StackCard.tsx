@@ -13,7 +13,7 @@ import {
   GridItem,
   Skeleton,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 
 import { IoBookmark } from "react-icons/io5";
 import { IoBookmarkOutline } from "react-icons/io5";
@@ -26,8 +26,12 @@ interface Props {
 }
 
 const StackCard = ({ stack, loadingStacks }: Props) => {
-  const updateStack = useUpdateStack(stack._id);
-
+  const [saved, setSaved] = useState<boolean>(stack.saved);
+  const updateStack = useUpdateStack(stack._id, undefined, !saved);
+  const manageSaveButton = async () => {
+    setSaved(!saved);
+    await updateStack();
+  };
   return (
     <GridItem>
       <Card
@@ -87,11 +91,18 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               }}
               marginRight={-3}
               aria-label="saveStack"
-              icon={<IoBookmarkOutline size={25} />}
+              icon={
+                saved ? (
+                  <IoBookmark size={25} />
+                ) : (
+                  <IoBookmarkOutline size={25} />
+                )
+              }
               variant="ghost"
               size={"sm"}
               _hover={{ bg: Colors.background }}
               _active={{ bg: Colors.background }}
+              onClick={manageSaveButton}
             />
           </HStack>
         </CardFooter>
