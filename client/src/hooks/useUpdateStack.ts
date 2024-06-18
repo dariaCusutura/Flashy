@@ -1,8 +1,8 @@
-import { AuthContext } from "@/AuthProvider";
 import { useContext } from "react";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { BACKEND_URL } from "@/constants";
+import { AuthContext } from "@/AuthProvider";
 
 export default function useUpdateStack(
   id: string,
@@ -38,7 +38,7 @@ export default function useUpdateStack(
         return data.message;
       }
     } catch (error) {
-      console.error(`[useUpdateStack] Failed to updaye stack:, ${error}`);
+      console.error(`[useUpdateStack] Failed to update stack:, ${error}`);
       toast.error("Failed to update stack");
     }
   };

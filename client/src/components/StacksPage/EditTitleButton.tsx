@@ -25,7 +25,7 @@ interface Props {
 const EditTitleButton = ({ stackTitle, stackId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>(stackTitle);
-  const [error, setError] = useState();
+  const [error, setError] = useState<string>("");
   const updateStack = useUpdateStack(stackId, title);
   const manageSave = async () => {
     const error = await updateStack();
@@ -49,6 +49,7 @@ const EditTitleButton = ({ stackTitle, stackId }: Props) => {
         isOpen={isOpen}
         onClose={() => {
           onClose();
+          setError("");
         }}
       >
         <ModalOverlay />
