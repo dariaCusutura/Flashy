@@ -1,6 +1,7 @@
+import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 const SearchBar = ({ mode }: Props) => {
+  const { setSearchInput } = useSearch();
   return (
     mode === "stacks" && (
       <InputGroup>
@@ -17,7 +19,9 @@ const SearchBar = ({ mode }: Props) => {
         />
         <Input
           id="search"
-          placeholder="Search a stack..."
+          placeholder={
+            mode === "stacks" ? "Search a stack..." : "Search a card..."
+          }
           _placeholder={{ color: Colors.text }}
           color={Colors.text}
           variant={"filled"}
@@ -31,6 +35,10 @@ const SearchBar = ({ mode }: Props) => {
           _focus={{
             borderColor: "transparent",
             boxShadow: "2px 2px 5px 0 rgba(0,0,0,0.7)",
+          }}
+          onChange={(e) => {
+            e.preventDefault();
+            setSearchInput(e.target.value);
           }}
         />
       </InputGroup>

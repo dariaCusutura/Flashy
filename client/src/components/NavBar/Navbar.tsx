@@ -3,7 +3,7 @@ import { Colors } from "@/colors";
 import { Routes } from "@/routes";
 import { Box, Button, Flex, Image, Stack } from "@chakra-ui/react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import BurgerMenu from "./BurgerMenu";
 
@@ -42,7 +42,9 @@ const Navbar = ({ mode }: Props) => {
             />
           )}
         </Button>
-        <SearchBar mode={mode} />
+        <SearchBar
+          mode={mode}
+        />
         {mode === "stacks" && <BurgerMenu />}
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>

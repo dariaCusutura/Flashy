@@ -1,4 +1,5 @@
 "use client";
+import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import AddStackButton from "@/components/StacksPage/AddStackButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
@@ -19,10 +20,10 @@ import { LuFilterX } from "react-icons/lu";
 const page = () => {
   const [page, setPage] = useState<number>(1);
   const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
-
+  const { searchInput } = useSearch();
   useEffect(() => {
-    getStacks(page);
-  }, [page]);
+    getStacks(page, undefined, searchInput);
+  }, [page, searchInput]);
 
   return (
     <Box
