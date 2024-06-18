@@ -41,7 +41,12 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
       >
         <CardHeader paddingBottom={0}>
           <HStack width="100%" justifyContent="space-between">
-            <Heading size={{ xl: "lg", lg: "md", md: "md", base: "md" }}>
+            <Heading
+              size={{ xl: "lg", lg: "md", md: "md", base: "md" }}
+              isTruncated
+              maxW={{ xl: "300px", lg: "250px", md: "200px", base: "150px" }}
+              whiteSpace="normal"
+            >
               {" "}
               {stack.title}
             </Heading>
