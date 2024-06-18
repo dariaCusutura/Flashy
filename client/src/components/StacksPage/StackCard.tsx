@@ -50,7 +50,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               {" "}
               {stack.title}
             </Heading>
-            <StackMenu stackId={stack._id} stackTitle={stack.title} />
+            <StackMenu stack={stack} />
           </HStack>
         </CardHeader>
         <CardBody paddingTop={0}>

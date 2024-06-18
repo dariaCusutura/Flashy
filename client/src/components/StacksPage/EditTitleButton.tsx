@@ -1,4 +1,5 @@
 import { Colors } from "@/colors";
+import { Stack } from "@/hooks/useGetStacks";
 import useUpdateStack from "@/hooks/useUpdateStack";
 import {
   MenuItem,
@@ -18,15 +19,15 @@ import {
 import React, { useEffect, useState } from "react";
 
 interface Props {
-  stackTitle: string;
-  stackId: string;
+  stack: Stack;
 }
 
-const EditTitleButton = ({ stackTitle, stackId }: Props) => {
+const EditTitleButton = ({ stack }: Props) => {
+  // console.log(stack);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [title, setTitle] = useState<string>(stackTitle);
+  const [title, setTitle] = useState<string>(stack.title);
   const [error, setError] = useState<string>("");
-  const updateStack = useUpdateStack(stackId, title);
+  const updateStack = useUpdateStack(stack._id, title);
   const manageSave = async () => {
     const error = await updateStack();
     if (error) setError(error);
@@ -40,7 +41,10 @@ const EditTitleButton = ({ stackTitle, stackId }: Props) => {
       <MenuItem
         bg={Colors.background}
         _hover={{ bg: Colors.lightGray }}
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          setTitle(stack.title);
+        }}
       >
         Edit title
       </MenuItem>

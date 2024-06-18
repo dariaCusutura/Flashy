@@ -10,13 +10,13 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import DeleteStackButton from "./DeleteStackButton";
 import EditTitleButton from "./EditTitleButton";
+import { Stack } from "@/hooks/useGetStacks";
 
 interface Props {
-  stackId: string;
-  stackTitle: string;
+  stack: Stack;
 }
 
-const StackMenu = ({ stackId, stackTitle }: Props) => {
+const StackMenu = ({ stack }: Props) => {
   return (
     <Menu>
       <MenuButton
@@ -32,8 +32,8 @@ const StackMenu = ({ stackId, stackTitle }: Props) => {
         bg={Colors.background}
         boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
       >
-        <EditTitleButton stackTitle={stackTitle} stackId={stackId} />
-        <DeleteStackButton stackId={stackId} />
+        <EditTitleButton stack={stack} />
+        <DeleteStackButton stackId={stack._id} />
       </MenuList>
     </Menu>
   );
