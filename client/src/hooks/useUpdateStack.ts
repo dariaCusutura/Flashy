@@ -4,14 +4,10 @@ import toast from "react-hot-toast";
 import { BACKEND_URL } from "@/constants";
 import { AuthContext } from "@/AuthProvider";
 
-export default function useUpdateStack(
-  id: string,
-  title?: string,
-  saved?: boolean
-) {
+export default function useUpdateStack() {
   const { logout } = useContext(AuthContext);
 
-  const updateStack = async () => {
+  const updateStack = async (id: string, title?: string, saved?: boolean) => {
     try {
       const token = Cookies.get("access_token");
       if (!token) {

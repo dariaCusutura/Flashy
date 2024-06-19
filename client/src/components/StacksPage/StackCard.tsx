@@ -11,12 +11,10 @@ import {
   Text,
   HStack,
   GridItem,
-  Skeleton,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { IoBookmark } from "react-icons/io5";
-import { IoBookmarkOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import StackMenu from "./StackMenu";
 import useUpdateStack from "@/hooks/useUpdateStack";
 
@@ -27,11 +25,18 @@ interface Props {
 
 const StackCard = ({ stack, loadingStacks }: Props) => {
   const [saved, setSaved] = useState<boolean>(stack.saved);
-  const updateStack = useUpdateStack(stack._id, undefined, !saved);
+  const updateStack = useUpdateStack();
+
+  useEffect(() => {
+    setSaved(stack.saved);
+  }, [stack]);
+
   const manageSaveButton = async () => {
-    setSaved(!saved);
-    await updateStack();
+    const newSavedState = !saved;
+    setSaved(newSavedState);
+    await updateStack(stack._id, undefined, newSavedState);
   };
+
   return (
     <GridItem>
       <Card
@@ -51,7 +56,6 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               maxW={{ xl: "300px", lg: "250px", md: "200px", base: "150px" }}
               whiteSpace="normal"
             >
-              {" "}
               {stack.title}
             </Heading>
             <StackMenu stack={stack} />

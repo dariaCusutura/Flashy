@@ -26,9 +26,9 @@ const EditTitleButton = ({ stack }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>(stack.title);
   const [error, setError] = useState<string>("");
-  const updateStack = useUpdateStack(stack._id, title);
+  const updateStack = useUpdateStack();
   const manageSave = async () => {
-    const error = await updateStack();
+    const error = await updateStack(stack._id, title);
     if (error) setError(error);
     else {
       window.location.reload();
