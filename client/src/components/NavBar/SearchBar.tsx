@@ -28,6 +28,7 @@ const SearchBar = ({ mode }: Props) => {
       <InputGroup>
         <Input
           id="search"
+          name="searchBar"
           placeholder={
             mode === "stacks" ? "Search a stack..." : "Search a card..."
           }

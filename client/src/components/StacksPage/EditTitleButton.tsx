@@ -23,7 +23,6 @@ interface Props {
 }
 
 const EditTitleButton = ({ stack }: Props) => {
-  // console.log(stack);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [title, setTitle] = useState<string>(stack.title);
   const [error, setError] = useState<string>("");

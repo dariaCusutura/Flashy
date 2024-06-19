@@ -2,6 +2,7 @@
 import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import AddStackButton from "@/components/StacksPage/AddStackButton";
+import FilterStacksButton from "@/components/StacksPage/FilterStacksButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
 import StackPagination from "@/components/StacksPage/StackPagination";
 import useGetStacks from "@/hooks/useGetStacks";
@@ -12,18 +13,25 @@ import {
   Heading,
   HStack,
   IconButton,
+  Tag,
+  TagLabel,
+  TagCloseButton,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { LuFilter } from "react-icons/lu";
+
 import { LuFilterX } from "react-icons/lu";
 
 const page = () => {
   const [page, setPage] = useState<number>(1);
+  const [savedFilter, setSavedFilter] = useState<boolean | undefined>(
+    undefined
+  );
+  const [isChecked, setIsChecked] = useState(false);
   const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
   const { searchInput } = useSearch();
   useEffect(() => {
-    getStacks(page, undefined, searchInput);
-  }, [page, searchInput]);
+    getStacks(page, savedFilter, searchInput);
+  }, [page, searchInput, savedFilter]);
 
   return (
     <Box
@@ -55,13 +63,30 @@ const page = () => {
           >
             My Stacks
           </Heading>
-          <IconButton
-            aria-label="filter"
-            icon={<LuFilter size={25} />}
-            variant="ghost"
-            _hover={{ bg: Colors.lightGray }}
-            _active={{ bg: Colors.lightGray }}
+          <FilterStacksButton
+            setSavedFilter={setSavedFilter}
+            savedFilter={savedFilter}
+            isChecked={isChecked}
+            setIsChecked={setIsChecked}
           />
+          {savedFilter && (
+            <Tag bg={Colors.lightGray}>
+              <TagLabel
+                fontSize={{ xl: "xl", lg: "xl", md: "xl", base: "md" }}
+                paddingBottom={1}
+                paddingTop={1}
+                paddingLeft={1}
+              >
+                Saved
+              </TagLabel>
+              <TagCloseButton
+                onClick={() => {
+                  setSavedFilter(undefined);
+                  setIsChecked(false);
+                }}
+              />
+            </Tag>
+          )}
         </HStack>
         {paginationInfo.records_on_page === 0 && (
           <Text
