@@ -1,22 +1,31 @@
 import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
-import { InputGroup, InputLeftElement, Input } from "@chakra-ui/react";
+import {
+  InputGroup,
+  Input,
+  InputRightElement,
+  IconButton,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface Props {
   mode: string;
 }
 
 const SearchBar = ({ mode }: Props) => {
-  const { setSearchInput } = useSearch();
+  const { searchInput, setSearchInput } = useSearch();
+  const [preSearchInput, setPreSearchInput] = useState<string>("");
+  const manageSearchBarButton = () => {
+    if (searchInput === preSearchInput && preSearchInput !== "") {
+      setSearchInput("");
+      setPreSearchInput("");
+    } else setSearchInput(preSearchInput);
+  };
   return (
     mode === "stacks" && (
       <InputGroup>
-        <InputLeftElement
-          paddingLeft="0.5rem"
-          children={<IoSearch color={Colors.text} size={20} />}
-        />
         <Input
           id="search"
           placeholder={
@@ -36,11 +45,28 @@ const SearchBar = ({ mode }: Props) => {
             borderColor: "transparent",
             boxShadow: "2px 2px 5px 0 rgba(0,0,0,0.7)",
           }}
+          value={preSearchInput}
           onChange={(e) => {
             e.preventDefault();
-            setSearchInput(e.target.value);
+            setPreSearchInput(e.target.value);
           }}
         />
+        <InputRightElement>
+          <IconButton
+            bg={Colors.lightGray}
+            borderRightRadius={"0.9rem"}
+            borderLeftRadius={0}
+            aria-label="button"
+            icon={
+              searchInput === preSearchInput && preSearchInput !== "" ? (
+                <IoCloseSharp size={22} />
+              ) : (
+                <IoSearch color={Colors.text} size={22} />
+              )
+            }
+            onClick={manageSearchBarButton}
+          />
+        </InputRightElement>
       </InputGroup>
     )
   );
