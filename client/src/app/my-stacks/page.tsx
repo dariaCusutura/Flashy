@@ -13,7 +13,7 @@ import {
   HStack,
   IconButton,
 } from "@chakra-ui/react";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuFilter } from "react-icons/lu";
 import { LuFilterX } from "react-icons/lu";
 
@@ -21,7 +21,6 @@ const page = () => {
   const [page, setPage] = useState<number>(1);
   const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
   const { searchInput } = useSearch();
-  const { setSearchInput } = useSearch();
   useEffect(() => {
     getStacks(page, undefined, searchInput);
   }, [page, searchInput]);
@@ -51,12 +50,8 @@ const page = () => {
           <Heading
             color={Colors.text}
             fontWeight="normal"
-            transition="font-weight 0.5s ease"
-            _hover={{ fontWeight: "bolder" }}
             marginLeft={{ md: "100px", lg: "100px", xl: "700px", base: "50px" }}
             size={{ md: "lg", lg: "lg", xl: "xl", base: "lg" }}
-            onClick={() => setSearchInput("")}
-            cursor="pointer"
           >
             My Stacks
           </Heading>
@@ -68,7 +63,14 @@ const page = () => {
             _active={{ bg: Colors.lightGray }}
           />
         </HStack>
-        {paginationInfo.records_on_page === 0 && <Text>0 stacks found</Text>}
+        {paginationInfo.records_on_page === 0 && (
+          <Text
+            marginLeft={{ md: "100px", lg: "100px", xl: "100px", base: "50px" }}
+            fontSize={{ md: "xl", lg: "xl", xl: "xl", base: "lg" }}
+          >
+            0 stacks found
+          </Text>
+        )}
         <StackGrid stacks={stacks} loadingStacks={loadingStacks} />
         <StackPagination paginationInfo={paginationInfo} setPage={setPage} />
         <AddStackButton />
