@@ -35,6 +35,10 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
   return (
     <GridItem>
       <Card
+        _hover={{
+          boxShadow: "0.5px 0.5px 7px 0 rgba(0,0,0,0.5)",
+          transition: "0.7s",
+        }}
         bg={Colors.background}
         width="fit-content"
         boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
