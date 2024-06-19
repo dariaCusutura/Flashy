@@ -37,14 +37,12 @@ const Navbar = ({ mode }: Props) => {
                   : "./lightLogo.png"
               }
               alt="logo"
-              boxSize={{ lg: 150, md: 150, base: 200 }} // Set responsive size
+              boxSize={{ lg: 150, md: 150, base: 150 }} // Set responsive size
               objectFit="contain"
             />
           )}
         </Button>
-        <SearchBar
-          mode={mode}
-        />
+        <SearchBar mode={mode} />
         {mode === "stacks" && <BurgerMenu />}
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>

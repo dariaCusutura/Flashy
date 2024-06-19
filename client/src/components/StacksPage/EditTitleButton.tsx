@@ -70,6 +70,7 @@ const EditTitleButton = ({ stack }: Props) => {
             <VStack>
               <Input
                 id="title"
+                name="editTitle"
                 value={title}
                 borderRadius={"0.9rem"}
                 borderColor={Colors.darkGray}

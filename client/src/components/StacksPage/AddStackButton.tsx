@@ -90,6 +90,7 @@ const AddStackButton = () => {
                 Stack Title
               </Heading>
               <Input
+                name="addStack"
                 id="title"
                 borderRadius={"0.9rem"}
                 borderColor={Colors.darkGray}
@@ -100,7 +101,12 @@ const AddStackButton = () => {
                 }}
               />
               {error && (
-                <Text color={"red"} marginTop={1} marginBottom={-2} textAlign={"left"}>
+                <Text
+                  color={"red"}
+                  marginTop={1}
+                  marginBottom={-2}
+                  textAlign={"left"}
+                >
                   {error}
                 </Text>
               )}

@@ -86,6 +86,10 @@ const FilterStacksButton = ({
                     borderColor: Colors.orange,
                     size: "lg",
                   },
+                  ".chakra-checkbox__control:hover[data-checked] .chakra-checkbox__icon":
+                    {
+                      bg: Colors.orange,
+                    },
                 }}
                 isChecked={savedFilter}
                 onChange={(e) => {
