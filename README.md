@@ -1,7 +1,8 @@
-# Flashy
+# ![lightLogo1](https://github.com/dariaCusutura/Flashy/assets/149684157/c31e1c11-3235-4e09-a74b-7e3287e46e74)
+
 
 ## What is it?
-- Web application that aims to help 
+- Flashy is a web application that aims to help 
 students learn more efficiently by 
 allowing them to create custom study 
 flashcards. 📚
