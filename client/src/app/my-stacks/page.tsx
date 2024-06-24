@@ -17,21 +17,28 @@ import {
   TagLabel,
   TagCloseButton,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-
-import { LuFilterX } from "react-icons/lu";
+import React, { useEffect, useRef, useState } from "react";
 
 const page = () => {
   const [page, setPage] = useState<number>(1);
+  const [resetPage, setResetPage] = useState<boolean>(false);
   const [savedFilter, setSavedFilter] = useState<boolean | undefined>(
     undefined
   );
   const [isChecked, setIsChecked] = useState(false);
   const { getStacks, stacks, paginationInfo, loadingStacks } = useGetStacks();
   const { searchInput } = useSearch();
+
+  // Set page to 1 and trigger resetPage flag when searchInput changes
+  useEffect(() => {
+    setPage(1);
+    setResetPage(!resetPage);
+  }, [searchInput]);
+
+  // Fetch stacks whenever page changes, but only after the page has been reset
   useEffect(() => {
     getStacks(page, savedFilter, searchInput);
-  }, [page, searchInput, savedFilter]);
+  }, [page, savedFilter, resetPage]);
 
   return (
     <Box
@@ -68,6 +75,7 @@ const page = () => {
             savedFilter={savedFilter}
             isChecked={isChecked}
             setIsChecked={setIsChecked}
+            setPage={setPage}
           />
           {savedFilter && (
             <Tag bg={Colors.lightGray}>

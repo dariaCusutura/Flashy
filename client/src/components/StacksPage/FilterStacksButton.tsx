@@ -21,11 +21,13 @@ import { LuFilter } from "react-icons/lu";
 interface Props {
   setSavedFilter: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
   savedFilter: boolean | undefined;
   isChecked: boolean;
 }
 
 const FilterStacksButton = ({
+  setPage,
   setSavedFilter,
   savedFilter,
   isChecked,
@@ -37,6 +39,7 @@ const FilterStacksButton = ({
   const manageFilterButtonClick = () => {
     if (isChecked) {
       setSavedFilter(isChecked);
+      setPage(1);
       onClose();
     } else setError("Select filters");
   };
