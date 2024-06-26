@@ -1,3 +1,4 @@
+"use client";
 import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import {
@@ -6,7 +7,7 @@ import {
   InputRightElement,
   IconButton,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { IoCloseSharp } from "react-icons/io5";
 
@@ -23,6 +24,11 @@ const SearchBar = ({ mode }: Props) => {
       setPreSearchInput("");
     } else setSearchInput(preSearchInput);
   };
+
+  useEffect(() => {
+    setPreSearchInput("");
+  }, [mode]);
+
   return (
     (mode === "stacks" || mode === "cards") && (
       <InputGroup>

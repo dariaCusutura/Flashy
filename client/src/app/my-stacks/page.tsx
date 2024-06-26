@@ -18,9 +18,11 @@ import {
   TagCloseButton,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const page = () => {
   const [page, setPage] = useState<number>(1);
+  const pathname = usePathname();
   const [resetPage, setResetPage] = useState<boolean>(false);
   const [savedFilter, setSavedFilter] = useState<boolean | undefined>(
     undefined

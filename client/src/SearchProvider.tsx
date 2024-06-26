@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 interface SearchContextProps {
   searchInput: string;
@@ -7,8 +13,17 @@ interface SearchContextProps {
 
 const SearchContext = createContext<SearchContextProps | undefined>(undefined);
 
-export const SearchProvider = ({ children }: { children: ReactNode }) => {
+interface SearchProviderProps {
+  children: ReactNode;
+  mode: string; // Add mode as a prop
+}
+
+export const SearchProvider = ({ children, mode }: SearchProviderProps) => {
   const [searchInput, setSearchInput] = useState<string>("");
+
+  useEffect(() => {
+    setSearchInput("");
+  }, [mode]);
 
   return (
     <SearchContext.Provider value={{ searchInput, setSearchInput }}>

@@ -4,10 +4,15 @@ import { ChakraProvider } from "@chakra-ui/react";
 import theme from "@/theme";
 import { SearchProvider } from "@/SearchProvider";
 
-export function Providers({ children }: { children: React.ReactNode }) {
+interface ProvidersProps {
+  children: React.ReactNode;
+  mode: string; // Add mode as a prop
+}
+
+export function Providers({ children, mode }: ProvidersProps) {
   return (
     <AuthProvider>
-      <SearchProvider>
+      <SearchProvider mode={mode}>
         <ChakraProvider theme={theme}>{children}</ChakraProvider>
       </SearchProvider>
     </AuthProvider>

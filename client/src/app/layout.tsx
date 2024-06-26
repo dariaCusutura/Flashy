@@ -36,7 +36,7 @@ export default function RootLayout({
         <title>Flashy</title>
       </head>
       <body>
-        <Providers>
+        <Providers mode={mode}>
           <Navbar mode={mode} />
           {children}
           <Toaster position="bottom-center" />
