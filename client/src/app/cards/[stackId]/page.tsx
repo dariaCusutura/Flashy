@@ -1,11 +1,22 @@
 "use client";
 import { Colors } from "@/colors";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import CardsGrid from "@/components/CardsPage/CardsGrid";
+import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
+import {
+  Box,
+  HStack,
+  Heading,
+  IconButton,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React from "react";
+import { IoArrowBackSharp } from "react-icons/io5";
 
-const page = ({ params }: { params: { stackName: string } }) => {
+const page = () => {
   const pathname = usePathname();
+  const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const searchParams = useSearchParams();
   const stackId = searchParams.get("stackId");
   return (
@@ -29,8 +40,25 @@ const page = ({ params }: { params: { stackName: string } }) => {
         alignItems="flex-start"
         marginBottom={"30px"}
       >
-        <Text>cardsss {pathname}</Text>
-        <Text>searchParams {stackId}</Text>
+        <HStack spacing={5}>
+          <IconButton
+            aria-label="back"
+            variant="ghost"
+            _hover={{ bg: Colors.lightGray }}
+            _active={{ bg: Colors.lightGray }}
+            marginLeft={{ md: "50px", lg: "100px", xl: "100px", base: "25px" }}
+            icon={<IoArrowBackSharp size={30} />}
+          />
+          <Heading
+            color={Colors.text}
+            fontWeight="normal"
+            size={{ md: "lg", lg: "lg", xl: "xl", base: "lg" }}
+          >
+            {stackTitle}
+          </Heading>
+          <FilterCardsButton />
+        </HStack>
+        <CardsGrid />
       </VStack>
     </Box>
   );
