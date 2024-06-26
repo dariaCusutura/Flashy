@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 
-export default function StacksLayout({
+export default function CardsLayout({
   children,
 }: {
   children: React.ReactNode;

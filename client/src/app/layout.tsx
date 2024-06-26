@@ -25,12 +25,11 @@ export default function RootLayout({
       case Routes.MY_STACKS:
         return "stacks";
       default:
-        return "";
+        return "cards";
     }
   };
 
   const mode = getMode(pathname);
-
   return (
     <html lang="en">
       <head>

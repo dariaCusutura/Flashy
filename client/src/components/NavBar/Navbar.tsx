@@ -21,7 +21,7 @@ const Navbar = ({ mode }: Props) => {
       width="100%"
       zIndex={1000}
       boxShadow="0 2px 4px rgba(0, 0, 0, 0.3)"
-      bg={mode === "stacks" ? Colors.background : undefined}
+      bg={mode === "stacks" || mode === "cards" ? Colors.background : undefined}
     >
       <Flex alignItems="center" h={10} justifyContent="space-between">
         <Button
@@ -33,8 +33,8 @@ const Navbar = ({ mode }: Props) => {
             <Image
               src={
                 mode === "signup" || mode === "login"
-                  ? "./darkLogo.png"
-                  : "./lightLogo.png"
+                  ? "/darkLogo.png"
+                  : "/lightLogo.png"
               }
               alt="logo"
               boxSize={{ lg: 150, md: 150, base: 150 }} // Set responsive size
@@ -43,7 +43,7 @@ const Navbar = ({ mode }: Props) => {
           )}
         </Button>
         <SearchBar mode={mode} />
-        {mode === "stacks" && <BurgerMenu />}
+        {(mode === "stacks" || mode === "cards") && <BurgerMenu />}
         {mode === "home" && (
           <Stack direction="row" marginRight={"10px"}>
             <Button

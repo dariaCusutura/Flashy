@@ -24,7 +24,7 @@ const SearchBar = ({ mode }: Props) => {
     } else setSearchInput(preSearchInput);
   };
   return (
-    mode === "stacks" && (
+    (mode === "stacks" || mode === "cards") && (
       <InputGroup>
         <Input
           id="search"

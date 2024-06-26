@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import { Stack } from "@/hooks/useGetStacks";
 import {
@@ -17,6 +18,8 @@ import React, { useState, useEffect } from "react";
 import { IoBookmark, IoBookmarkOutline } from "react-icons/io5";
 import StackMenu from "./StackMenu";
 import useUpdateStack from "@/hooks/useUpdateStack";
+import { useRouter } from "next/navigation";
+import { Routes } from "@/routes";
 
 interface Props {
   stack: Stack;
@@ -26,6 +29,7 @@ interface Props {
 const StackCard = ({ stack, loadingStacks }: Props) => {
   const [saved, setSaved] = useState<boolean>(stack.saved);
   const updateStack = useUpdateStack();
+  const router = useRouter();
 
   useEffect(() => {
     setSaved(stack.saved);
@@ -35,6 +39,10 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
     const newSavedState = !saved;
     setSaved(newSavedState);
     await updateStack(stack._id, undefined, newSavedState);
+  };
+
+  const handleCardsClick = () => {
+    router.push(Routes.STACK_CARDS(stack.title) + `/?stackId=${stack._id}`);
   };
 
   return (
@@ -92,6 +100,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
               color={"#EEEEEE"}
               _hover={{ bg: "#A94402" }}
               boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
+              onClick={handleCardsClick}
             >
               Edit Cards
             </Button>
