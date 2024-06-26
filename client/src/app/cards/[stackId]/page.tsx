@@ -1,4 +1,5 @@
 "use client";
+import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import CardsGrid from "@/components/CardsPage/CardsGrid";
 import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
@@ -20,15 +21,23 @@ const page = () => {
   const searchParams = useSearchParams();
   const stackId = searchParams.get("stackId");
   const [page, setPage] = useState<number>(1);
+  const [resetPage, setResetPage] = useState<boolean>(false);
   const pathname = usePathname();
   const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const { getCards, cards, paginationInfo, loadingCards } = useGetCards();
+  const { searchInput } = useSearch();
+
+  // Set page to 1 and trigger resetPage flag when searchInput changes
+  useEffect(() => {
+    setPage(1);
+    setResetPage(!resetPage);
+  }, [searchInput]);
 
   useEffect(() => {
     if (stackId) {
-      getCards(stackId, page);
+      getCards(stackId, page, undefined, searchInput);
     }
-  }, [page, stackId]);
+  }, [page, stackId, resetPage]);
 
   return (
     <Box
