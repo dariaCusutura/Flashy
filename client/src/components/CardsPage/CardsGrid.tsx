@@ -1,8 +1,14 @@
+"use client";
 import { Grid } from "@chakra-ui/react";
 import React from "react";
 import FlashCard from "./FlashCard";
+import { Flashcard } from "@/hooks/useGetCards";
 
-const CardsGrid = () => {
+interface Props {
+  cards: Flashcard[];
+}
+
+const CardsGrid = ({ cards }: Props) => {
   return (
     <Grid
       templateRows="repeat(2, 1fr)"
@@ -15,7 +21,9 @@ const CardsGrid = () => {
       alignSelf="center"
       width="90%"
     >
-      <FlashCard />
+      {cards.map((card, index) => (
+        <FlashCard card={card} key={index} />
+      ))}
     </Grid>
   );
 };

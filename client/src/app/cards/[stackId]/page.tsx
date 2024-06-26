@@ -2,6 +2,7 @@
 import { Colors } from "@/colors";
 import CardsGrid from "@/components/CardsPage/CardsGrid";
 import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
+import useGetCards from "@/hooks/useGetCards";
 import {
   Box,
   HStack,
@@ -11,7 +12,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { usePathname, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoArrowBackSharp } from "react-icons/io5";
 
 const page = () => {
@@ -19,6 +20,15 @@ const page = () => {
   const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const searchParams = useSearchParams();
   const stackId = searchParams.get("stackId");
+  const [page, setPage] = useState<number>(1);
+  const { getCards, cards, paginationInfo, loadingCards } = useGetCards();
+
+  useEffect(() => {
+    if (stackId) {
+      getCards(stackId, page);
+    }
+  }, [page]);
+
   return (
     <Box
       top={0}
@@ -58,7 +68,7 @@ const page = () => {
           </Heading>
           <FilterCardsButton />
         </HStack>
-        <CardsGrid />
+        <CardsGrid cards={cards} />
       </VStack>
     </Box>
   );
