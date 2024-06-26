@@ -61,9 +61,9 @@ export class CardsService {
     await this.validateAuthor(userId, stack.author);
 
     const { page = '1', ...query } = queryParams;
-    const currentPage = parseInt(page);
+    const current_page = parseInt(page);
 
-    if (currentPage < 1) {
+    if (current_page < 1) {
       throw new PageNumberTooLowException();
     }
 
@@ -80,16 +80,17 @@ export class CardsService {
 
     const totalCards = await this.cardModel.countDocuments(finalQuery);
     const take = 6;
-    const totalPages = Math.ceil(totalCards / take);
+    const total_pages = Math.ceil(totalCards / take);
 
-    if (currentPage > totalPages && totalPages !== 0) {
+    if (current_page > total_pages && total_pages !== 0) {
       throw new PageNumberTooHighException();
     }
 
-    const skip = (currentPage - 1) * take;
+    const skip = (current_page - 1) * take;
 
-    const nextPage = currentPage < totalPages ? currentPage + 1 : totalPages;
-    const previousPage = currentPage > 1 ? currentPage - 1 : 1;
+    const next_page =
+      current_page < total_pages ? current_page + 1 : total_pages;
+    const previous_page = current_page > 1 ? current_page - 1 : 1;
 
     return await this.cardModel
       .find(finalQuery, null, { skip, limit: take })
@@ -108,12 +109,12 @@ export class CardsService {
         return {
           cards: cards,
           pagination: {
-            previousPage,
-            currentPage,
-            nextPage,
-            totalPages,
-            recordsOnPage: data.length,
-            totalRecords: totalCards,
+            previous_page,
+            current_page,
+            next_page,
+            total_pages,
+            records_on_page: cards.length,
+            total_records: totalCards,
           },
         };
       });
