@@ -97,8 +97,16 @@ export class CardsService {
         throw new InternalServerErrorException(error);
       })
       .then((data) => {
+        const cards = data.map((card) => {
+          return {
+            _id: card._id.toString(),
+            question: card.question,
+            answer: card.answer,
+            label: card.label,
+          };
+        });
         return {
-          cards: data,
+          cards: cards,
           pagination: {
             previousPage,
             currentPage,
