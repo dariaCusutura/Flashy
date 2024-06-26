@@ -44,6 +44,7 @@ export class CardsController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get all cards' })
   @ApiQuery({
     name: 'page',
@@ -74,8 +75,8 @@ export class CardsController {
     status: HttpStatus.INTERNAL_SERVER_ERROR,
     description: ErrorMessages.InternalServerError,
   })
-  getAllCards(@Query() query: any) {
-    return this.cardsService.getAll(query);
+  getAllCards(@Request() req, @Query() query: any) {
+    return this.cardsService.getAll(query, req.user.sub);
   }
 
   @Get(':cardId')

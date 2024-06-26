@@ -44,13 +44,21 @@ export class CardsService {
     return { message: Messages.CardCreated };
   }
 
-  async getAll(queryParams: {
-    stack: string;
-    label?: string;
-    searchTerm?: string;
-    page?: string;
-  }) {
-    await this.stackService.validateStackExists(queryParams.stack);
+  async getAll(
+    queryParams: {
+      stack: string;
+      label?: string;
+      searchTerm?: string;
+      page?: string;
+    },
+    userId: string,
+  ) {
+    //check if stack exists
+    const stack = await this.stackService.validateStackExists(
+      queryParams.stack,
+    );
+    //check if user is the author of the stack
+    await this.validateAuthor(userId, stack.author);
 
     const { page = '1', ...query } = queryParams;
     const currentPage = parseInt(page);
