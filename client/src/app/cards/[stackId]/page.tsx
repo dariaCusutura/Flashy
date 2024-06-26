@@ -2,6 +2,7 @@
 import { Colors } from "@/colors";
 import CardsGrid from "@/components/CardsPage/CardsGrid";
 import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
+import Pagination from "@/components/Pagination";
 import useGetCards from "@/hooks/useGetCards";
 import {
   Box,
@@ -16,18 +17,18 @@ import React, { useEffect, useState } from "react";
 import { IoArrowBackSharp } from "react-icons/io5";
 
 const page = () => {
-  const pathname = usePathname();
-  const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const searchParams = useSearchParams();
   const stackId = searchParams.get("stackId");
   const [page, setPage] = useState<number>(1);
+  const pathname = usePathname();
+  const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const { getCards, cards, paginationInfo, loadingCards } = useGetCards();
 
   useEffect(() => {
     if (stackId) {
       getCards(stackId, page);
     }
-  }, [page]);
+  }, [page, stackId]);
 
   return (
     <Box
@@ -68,7 +69,16 @@ const page = () => {
           </Heading>
           <FilterCardsButton />
         </HStack>
+        {paginationInfo.records_on_page == 0 && (
+          <Text
+            marginLeft={{ md: "100px", lg: "100px", xl: "100px", base: "50px" }}
+            fontSize={{ md: "xl", lg: "xl", xl: "xl", base: "lg" }}
+          >
+            0 cards found
+          </Text>
+        )}
         <CardsGrid cards={cards} />
+        <Pagination paginationInfo={paginationInfo} setPage={setPage} />
       </VStack>
     </Box>
   );

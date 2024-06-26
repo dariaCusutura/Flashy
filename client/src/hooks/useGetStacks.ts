@@ -3,15 +3,8 @@ import { BACKEND_URL } from "@/constants";
 import { useContext, useState } from "react";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
+import { PaginationInfo } from "./useGetCards";
 
-export interface PaginationInfo {
-  previous_page: number;
-  current_page: number;
-  next_page: number;
-  total_pages: number;
-  records_on_page: number;
-  total_records: number;
-}
 
 export interface Stack {
   _id: string;
@@ -41,7 +34,6 @@ export default function useGetStacks() {
         console.error("[useGetStacks]: No token found");
         toast.error("You must be logged in to access stacks");
         logout();
-        return;
       }
 
       let url = `${BACKEND_URL}/stacks?page=${page}`;

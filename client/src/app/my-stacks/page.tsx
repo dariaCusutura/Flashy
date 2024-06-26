@@ -4,7 +4,7 @@ import { Colors } from "@/colors";
 import AddStackButton from "@/components/StacksPage/AddStackButton";
 import FilterStacksButton from "@/components/StacksPage/FilterStacksButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
-import StackPagination from "@/components/StacksPage/StackPagination";
+import Pagination from "@/components/Pagination";
 import useGetStacks from "@/hooks/useGetStacks";
 import {
   Text,
@@ -105,7 +105,7 @@ const page = () => {
           </Text>
         )}
         <StackGrid stacks={stacks} loadingStacks={loadingStacks} />
-        <StackPagination paginationInfo={paginationInfo} setPage={setPage} />
+        <Pagination paginationInfo={paginationInfo} setPage={setPage} />
         <AddStackButton />
       </VStack>
     </Box>

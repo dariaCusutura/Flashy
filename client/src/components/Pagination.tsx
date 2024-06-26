@@ -1,5 +1,5 @@
 import { Colors } from "@/colors";
-import { PaginationInfo } from "@/hooks/useGetStacks";
+import { PaginationInfo } from "@/hooks/useGetCards";
 import { Button, HStack } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 
