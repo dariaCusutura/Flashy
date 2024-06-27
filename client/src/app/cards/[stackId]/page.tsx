@@ -4,6 +4,7 @@ import { Colors } from "@/colors";
 import CardsGrid from "@/components/CardsPage/CardsGrid";
 import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
 import Pagination from "@/components/Pagination";
+import AddCardButton from "@/components/PlusFloatingButton";
 import useGetCards from "@/hooks/useGetCards";
 import {
   Box,
@@ -88,6 +89,7 @@ const page = () => {
         )}
         <CardsGrid cards={cards} />
         <Pagination paginationInfo={paginationInfo} setPage={setPage} />
+        <AddCardButton mode="cards" stack={stackId ? stackId : "noStack"} />
       </VStack>
     </Box>
   );

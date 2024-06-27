@@ -1,7 +1,7 @@
 "use client";
 import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
-import AddStackButton from "@/components/StacksPage/AddStackButton";
+import AddStackButton from "@/components/PlusFloatingButton";
 import FilterStacksButton from "@/components/StacksPage/FilterStacksButton";
 import StackGrid from "@/components/StacksPage/StackGrid";
 import Pagination from "@/components/Pagination";
@@ -108,7 +108,7 @@ const page = () => {
         )}
         <StackGrid stacks={stacks} loadingStacks={loadingStacks} />
         <Pagination paginationInfo={paginationInfo} setPage={setPage} />
-        <AddStackButton />
+        <AddStackButton mode="stacks" stack="noStack"/>
       </VStack>
     </Box>
   );

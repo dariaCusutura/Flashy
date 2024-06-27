@@ -4,38 +4,43 @@ import toast from "react-hot-toast";
 import Cookies from "js-cookie";
 import { BACKEND_URL } from "@/constants";
 
-export default function useAddStack(title: string) {
+export default function useAddCard(
+  question: string,
+  answer: string,
+  stack: string,
+  label?: string
+) {
   const { logout } = useContext(AuthContext);
-  const addStack = async () => {
+  const addCard = async () => {
     try {
       const token = Cookies.get("access_token");
       if (!token) {
-        console.error("[useAddStack]: No token found");
-        toast.error("You must be logged in to add stacks");
+        console.error("[useAddCard]: No token found");
+        toast.error("You must be logged in to add cards");
         logout();
         return;
       }
 
-      const response = await fetch(`${BACKEND_URL}/stacks`, {
+      const response = await fetch(`${BACKEND_URL}/cards`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ title }),
+        body: JSON.stringify({ question, answer, stack, label }),
       });
       const data = await response.json();
       if (response.ok) {
-        console.log(`[useAddStack]: ${data.message}`);
-        if (title) toast.success("Stack added successfully");
+        console.log(`[useAddCard]: ${data.message}`);
+        toast.success("Card added successfully");
       } else if (response.status === 400) {
-        console.error(`[useAddStack]: ${data.message}`);
+        console.error(`[useAddCard]: ${data.message}`);
         return data.message;
       }
     } catch (error) {
-      console.error(`[useAddStack] Failed to add stack:, ${error}`);
-      toast.error("Failed to add stack");
+      console.error(`[useAddCard] Failed to add Card:, ${error}`);
+      toast.error("Failed to add card");
     }
   };
-  return addStack;
+  return addCard;
 }

@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { PaginationInfo } from "./useGetCards";
 
-
 export interface Stack {
   _id: string;
   title: string;
@@ -34,6 +33,7 @@ export default function useGetStacks() {
         console.error("[useGetStacks]: No token found");
         toast.error("You must be logged in to access stacks");
         logout();
+        return;
       }
 
       let url = `${BACKEND_URL}/stacks?page=${page}`;

@@ -42,6 +42,7 @@ export default function useGetCards() {
         console.error("[useGetCards]: No token found");
         toast.error("You must be logged in to access cards");
         logout();
+        return;
       }
 
       let url = `${BACKEND_URL}/cards?stack=${stack}&page=${page}`;
