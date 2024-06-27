@@ -1,4 +1,5 @@
 import { Colors } from "@/colors";
+import useDeleteCard from "@/hooks/useDeleteCard";
 import useDeleteStack from "@/hooks/useDeleteStack";
 import {
   AlertDialog,
@@ -14,28 +15,46 @@ import {
 import React from "react";
 
 interface Props {
-  stackId: string;
+  id: string;
+  mode: string;
 }
 
-const DeleteStackButton = ({ stackId }: Props) => {
+const DeleteButton = ({ id, mode }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = React.useRef<HTMLButtonElement>(null);
-  const deleteStack = useDeleteStack(stackId);
+  const deleteStack = useDeleteStack(id);
+  const deleteCard = useDeleteCard(id);
   const handleDelete = async () => {
-    await deleteStack();
+    mode == "stack" ? await deleteStack() : await deleteCard();
     onClose();
     window.location.reload();
   };
 
   return (
     <>
-      <MenuItem
-        bg={Colors.background}
-        _hover={{ bg: Colors.lightGray }}
-        onClick={onOpen}
-      >
-        Delete stack
-      </MenuItem>
+      {mode == "stack" ? (
+        <MenuItem
+          bg={Colors.background}
+          _hover={{ bg: Colors.lightGray }}
+          onClick={onOpen}
+        >
+          Delete stack
+        </MenuItem>
+      ) : (
+        <Button
+          size={{ xl: "md", lg: "sm", md: "sm", base: "sm" }}
+          borderRadius={"0.8rem"}
+          bg={"#BA4A00"}
+          border="2px"
+          borderColor={"#BA4A00"}
+          color={"#EEEEEE"}
+          _hover={{ bg: "#A94402" }}
+          boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
+          onClick={onOpen}
+        >
+          Delete
+        </Button>
+      )}
 
       <AlertDialog
         isOpen={isOpen}
@@ -54,11 +73,11 @@ const DeleteStackButton = ({ stackId }: Props) => {
               fontWeight="bold"
               bg={Colors.background}
             >
-              Delete Stack
+              {`Delete ${mode}`}
             </AlertDialogHeader>
             <AlertDialogBody bg={Colors.background}>
-              Are you sure you want to delete this stack? You can't undo this
-              action afterwards.
+              {`Are you sure you want to delete this ${mode}? You can't undo this
+              action afterwards.`}
             </AlertDialogBody>
 
             <AlertDialogFooter bg={Colors.background}>
@@ -94,4 +113,4 @@ const DeleteStackButton = ({ stackId }: Props) => {
   );
 };
 
-export default DeleteStackButton;
+export default DeleteButton;

@@ -14,6 +14,7 @@ import {
 import { Colors } from "@/colors";
 import Label from "@/components/CardsPage/Label";
 import { Flashcard } from "@/hooks/useGetCards";
+import DeleteButton from "../DeleteButton";
 
 interface Props {
   card: Flashcard;
@@ -64,18 +65,7 @@ const FlashCard = ({ card }: Props) => {
               >
                 Edit
               </Button>
-              <Button
-                size={{ xl: "md", lg: "sm", md: "sm", base: "sm" }}
-                borderRadius={"0.8rem"}
-                bg={"#BA4A00"}
-                border="2px"
-                borderColor={"#BA4A00"}
-                color={"#EEEEEE"}
-                _hover={{ bg: "#A94402" }}
-                boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
-              >
-                Delete
-              </Button>
+              <DeleteButton id={card._id} mode="card" />
             </HStack>
           </CardFooter>
         </Card>

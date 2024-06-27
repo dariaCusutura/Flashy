@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import DeleteStackButton from "./DeleteStackButton";
+import DeleteStackButton from "../DeleteButton";
 import EditTitleButton from "./EditTitleButton";
 import { Stack } from "@/hooks/useGetStacks";
 
@@ -33,7 +33,7 @@ const StackMenu = ({ stack }: Props) => {
         boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
       >
         <EditTitleButton stack={stack} />
-        <DeleteStackButton stackId={stack._id} />
+        <DeleteStackButton id={stack._id} mode="stack" />
       </MenuList>
     </Menu>
   );
