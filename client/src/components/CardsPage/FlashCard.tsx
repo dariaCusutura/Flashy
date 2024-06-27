@@ -12,6 +12,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import { Colors } from "@/colors";
+import Label from "@/components/CardsPage/Label";
 import { Flashcard } from "@/hooks/useGetCards";
 
 interface Props {
@@ -43,10 +44,11 @@ const FlashCard = ({ card }: Props) => {
           <CardBody paddingTop={3}>
             <Text
               color={Colors.darkGray}
-              fontSize={{ xl: "xl", lg: "xl", md: "lg", base: "lg" }}
+              fontSize={{ xl: "2xl", lg: "xl", md: "lg", base: "lg" }}
             >
               {card.answer}
             </Text>
+            <Label label={card.label} />
           </CardBody>
           <CardFooter marginTop={{ lg: "1px", xl: "20px" }}>
             <HStack width={"100%"}>
