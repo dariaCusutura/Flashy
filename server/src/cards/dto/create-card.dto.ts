@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsMongoId, IsNotEmpty, IsString } from 'class-validator';
+import { IsMongoId, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateCardDto {
   @IsString()
@@ -19,5 +19,7 @@ export class CreateCardDto {
   stack: string;
 
   @ApiPropertyOptional()
-  label?: string;
+  @IsOptional()
+  @IsString()
+  label: string;
 }
