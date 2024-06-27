@@ -7,7 +7,16 @@ import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
 import Pagination from "@/components/Pagination";
 import AddCardButton from "@/components/PlusFloatingButton";
 import useGetCards from "@/hooks/useGetCards";
-import { Box, HStack, Heading, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  HStack,
+  Heading,
+  Tag,
+  TagCloseButton,
+  TagLabel,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -16,6 +25,7 @@ const page = () => {
   const stackId = searchParams.get("stackId");
   const [page, setPage] = useState<number>(1);
   const [resetPage, setResetPage] = useState<boolean>(false);
+  const [labelFilter, setLabelFilter] = useState<string>("");
   const pathname = usePathname();
   const stackTitle = pathname.substring(pathname.lastIndexOf("/") + 1);
   const { getCards, cards, paginationInfo, loadingCards } = useGetCards();
@@ -29,9 +39,9 @@ const page = () => {
 
   useEffect(() => {
     if (stackId) {
-      getCards(stackId, page, undefined, searchInput);
+      getCards(stackId, page, labelFilter.toLowerCase(), searchInput);
     }
-  }, [page, stackId, resetPage]);
+  }, [page, stackId, resetPage, labelFilter]);
 
   return (
     <Box
@@ -63,7 +73,28 @@ const page = () => {
           >
             {stackTitle}
           </Heading>
-          <FilterCardsButton />
+          <FilterCardsButton
+            setLabelFilter={setLabelFilter}
+            setPage={setPage}
+            labelFilter={labelFilter}
+          />
+          {labelFilter && (
+            <Tag bg={Colors.lightGray}>
+              <TagLabel
+                fontSize={{ xl: "xl", lg: "xl", md: "xl", base: "md" }}
+                paddingBottom={1}
+                paddingTop={1}
+                paddingLeft={1}
+              >
+                {labelFilter}
+              </TagLabel>
+              <TagCloseButton
+                onClick={() => {
+                  setLabelFilter("");
+                }}
+              />
+            </Tag>
+          )}
         </HStack>
         {paginationInfo.records_on_page == 0 && (
           <Text

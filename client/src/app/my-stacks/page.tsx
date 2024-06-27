@@ -22,7 +22,6 @@ import { usePathname } from "next/navigation";
 
 const page = () => {
   const [page, setPage] = useState<number>(1);
-  const pathname = usePathname();
   const [resetPage, setResetPage] = useState<boolean>(false);
   const [savedFilter, setSavedFilter] = useState<boolean | undefined>(
     undefined
@@ -108,7 +107,7 @@ const page = () => {
         )}
         <StackGrid stacks={stacks} loadingStacks={loadingStacks} />
         <Pagination paginationInfo={paginationInfo} setPage={setPage} />
-        <AddStackButton mode="stacks" stack="noStack"/>
+        <AddStackButton mode="stacks" stack="noStack" />
       </VStack>
     </Box>
   );
