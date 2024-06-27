@@ -4,7 +4,7 @@
 ## What is it?
 - Flashy is a web application that aims to help 
 students learn more efficiently by 
-allowing them to create custom study 
+using custom study 
 flashcards. 📚
 ## What technologies does it use?
 - For the Backend: Built with NestJS and MongoDB with TypeScript
