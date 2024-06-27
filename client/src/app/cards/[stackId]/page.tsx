@@ -2,21 +2,14 @@
 import { useSearch } from "@/SearchProvider";
 import { Colors } from "@/colors";
 import CardsGrid from "@/components/CardsPage/CardsGrid";
+import BackButton from "@/components/CardsPage/BackButton";
 import FilterCardsButton from "@/components/CardsPage/FilterCardsButton";
 import Pagination from "@/components/Pagination";
 import AddCardButton from "@/components/PlusFloatingButton";
 import useGetCards from "@/hooks/useGetCards";
-import {
-  Box,
-  HStack,
-  Heading,
-  IconButton,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, HStack, Heading, Text, VStack } from "@chakra-ui/react";
 import { usePathname, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { IoArrowBackSharp } from "react-icons/io5";
 
 const page = () => {
   const searchParams = useSearchParams();
@@ -62,14 +55,7 @@ const page = () => {
         marginBottom={"30px"}
       >
         <HStack spacing={5}>
-          <IconButton
-            aria-label="back"
-            variant="ghost"
-            _hover={{ bg: Colors.lightGray }}
-            _active={{ bg: Colors.lightGray }}
-            marginLeft={{ md: "50px", lg: "100px", xl: "100px", base: "25px" }}
-            icon={<IoArrowBackSharp size={30} />}
-          />
+          <BackButton />
           <Heading
             color={Colors.text}
             fontWeight="normal"
