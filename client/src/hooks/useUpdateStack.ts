@@ -11,8 +11,8 @@ export default function useUpdateStack() {
     try {
       const token = Cookies.get("access_token");
       if (!token) {
-        console.error("[useDeleteStack]: No token found");
-        toast.error("You must be logged in to delete stacks");
+        console.error("[useUpdateStack]: No token found");
+        toast.error("You must be logged in to update stacks");
         logout();
         return;
       }
