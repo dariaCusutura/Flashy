@@ -67,7 +67,13 @@ const EditFlashcard = ({ card }: Props) => {
         color={"#EEEEEE"}
         _hover={{ bg: "#A94402" }}
         boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
-        onClick={onOpen}
+        onClick={() => {
+          onOpen();
+          setError("");
+          setAnswer(card.answer);
+          setQuestion(card.question);
+          setLabel(card.label);
+        }}
       >
         Edit
       </Button>
