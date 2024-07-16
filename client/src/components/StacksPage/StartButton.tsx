@@ -1,5 +1,6 @@
 "use client";
 import { Colors } from "@/colors";
+import useGetCards from "@/hooks/useGetCards";
 import { Stack } from "@/hooks/useGetStacks";
 import {
   Button,
@@ -20,7 +21,7 @@ import {
   Heading,
   useMediaQuery,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { IoMdArrowBack } from "react-icons/io";
 import { IoMdArrowForward } from "react-icons/io";
@@ -31,8 +32,22 @@ interface Props {
 
 const StartButton = ({ stack }: Props) => {
   const [questionNr, setQuestionNr] = useState<number>(1);
+  const [show, setShow] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(1);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isBase] = useMediaQuery("(max-width: 766px)");
+  const { getCards, cards } = useGetCards();
+
+  useEffect(() => {
+    if (stack._id) {
+      getCards(stack._id, page);
+    }
+  }, [page, stack]);
+
+  const cardIndex = useMemo(
+    () => (questionNr % 6 === 0 ? 5 : (questionNr % 6) - 1),
+    [questionNr]
+  );
 
   const backButton = () => {
     return (
@@ -46,6 +61,8 @@ const StartButton = ({ stack }: Props) => {
           icon={<IoMdArrowBack size={30} />}
           isDisabled={questionNr === 1}
           onClick={() => {
+            setShow(false);
+            if (questionNr % 6 === 1) setPage(page - 1);
             if (questionNr !== 1) setQuestionNr(questionNr - 1);
           }}
         />
@@ -65,6 +82,8 @@ const StartButton = ({ stack }: Props) => {
           icon={<IoMdArrowForward size={30} />}
           isDisabled={questionNr === stack.cardsNumber}
           onClick={() => {
+            setShow(false);
+            if (questionNr % 6 === 0) setPage(page + 1);
             if (questionNr !== stack.cardsNumber) setQuestionNr(questionNr + 1);
           }}
         />
@@ -96,7 +115,14 @@ const StartButton = ({ stack }: Props) => {
         Start
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setPage(1);
+          setQuestionNr(1);
+          onClose();
+        }}
+      >
         <ModalOverlay />
         <ModalContent
           borderRadius={"0.9rem"}
@@ -141,41 +167,44 @@ const StartButton = ({ stack }: Props) => {
                 spacing={{ xl: "60px", lg: "20px", md: "30px", base: "15px" }}
               >
                 {!isBase && backButton()}
-                <Card
-                  _hover={{
-                    boxShadow: "0.5px 0.5px 7px 0 rgba(0,0,0,0.5)",
-                    transition: "0.7s",
-                  }}
-                  bg={Colors.background}
-                  width="fit-content"
-                  boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
-                >
-                  <CardBody>
-                    <Heading
-                      size={{ xl: "lg", lg: "md", md: "md", base: "md" }}
-                      isTruncated
-                      whiteSpace="normal"
-                      marginTop={5}
-                      marginBottom={{
-                        xl: "35px",
-                        lg: "35px",
-                        md: "35px",
-                        base: "25px",
-                      }}
-                      textAlign={"center"}
-                    >
-                      How many animals are on the planet and on other planets in
-                      the whole wide world?
-                    </Heading>
-                    <Heading
-                      textAlign={"center"}
-                      color={Colors.darkGray}
-                      fontSize={{ xl: "2xl", lg: "xl", md: "lg", base: "lg" }}
-                    >
-                      26484 milion animals
-                    </Heading>
-                  </CardBody>
-                </Card>
+                {cards.length > 0 && cards[cardIndex] ? (
+                  <Card
+                    _hover={{
+                      boxShadow: "0.5px 0.5px 7px 0 rgba(0,0,0,0.5)",
+                      transition: "0.7s",
+                    }}
+                    bg={Colors.background}
+                    width="fit-content"
+                    boxShadow={"0.5px 0.5px 7px 0 rgba(0,0,0,0.3)"}
+                  >
+                    <CardBody>
+                      <Heading
+                        size={{ xl: "lg", lg: "md", md: "md", base: "md" }}
+                        isTruncated
+                        whiteSpace="normal"
+                        marginTop={5}
+                        marginBottom={{
+                          xl: "35px",
+                          lg: "35px",
+                          md: "35px",
+                          base: "25px",
+                        }}
+                        textAlign={"center"}
+                      >
+                        {cards[cardIndex].question}
+                      </Heading>
+                      <Heading
+                        textAlign={"center"}
+                        color={show ? Colors.darkGray : Colors.background}
+                        fontSize={{ xl: "2xl", lg: "xl", md: "lg", base: "lg" }}
+                      >
+                        {cards[cardIndex].answer}
+                      </Heading>
+                    </CardBody>
+                  </Card>
+                ) : (
+                  <Text>No cards available</Text>
+                )}
                 {!isBase && nextButton()}
               </HStack>
               <Button
@@ -187,8 +216,11 @@ const StartButton = ({ stack }: Props) => {
                 _hover={{ bg: "#A94402" }}
                 boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
                 fontSize={{ xl: "2xl", lg: "xl", md: "lg", base: "lg" }}
+                onClick={() => {
+                  setShow(!show);
+                }}
               >
-                Show Answer
+                {show ? "Hide Answer" : "Show Answer"}
               </Button>
             </VStack>
           </ModalBody>
