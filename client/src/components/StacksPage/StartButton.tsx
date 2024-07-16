@@ -95,6 +95,7 @@ const StartButton = ({ stack }: Props) => {
     if (stack.cardsNumber === 0) {
       toast.error("Add some cards before starting");
     } else {
+      setShow(false);
       onOpen();
     }
   };
