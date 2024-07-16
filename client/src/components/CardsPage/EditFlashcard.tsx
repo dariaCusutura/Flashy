@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import { Flashcard } from "@/hooks/useGetCards";
 import useUpdateCard from "@/hooks/useUpdateCard";

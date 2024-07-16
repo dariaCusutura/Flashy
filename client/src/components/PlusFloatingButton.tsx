@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import useAddCard from "@/hooks/useAddCard";
 import useAddStack from "@/hooks/useAddStack";
@@ -120,7 +121,7 @@ const AddStackButton = ({ mode, stack }: Props) => {
             <MenuButton
               marginTop={2}
               as={Button}
-              rightIcon={label ? undefined : <LuChevronDown size={20}/>}
+              rightIcon={label ? undefined : <LuChevronDown size={20} />}
               _hover={{ bg: "#CFCBCB" }}
               alignSelf={"flex-start"}
               bg={Colors.lightGray}

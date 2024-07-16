@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import { Stack } from "@/hooks/useGetStacks";
 import useUpdateStack from "@/hooks/useUpdateStack";

@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import useDeleteCard from "@/hooks/useDeleteCard";
 import useDeleteStack from "@/hooks/useDeleteStack";

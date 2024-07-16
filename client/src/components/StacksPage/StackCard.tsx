@@ -20,6 +20,7 @@ import StackMenu from "./StackMenu";
 import useUpdateStack from "@/hooks/useUpdateStack";
 import { useRouter } from "next/navigation";
 import { Routes } from "@/routes";
+import StartButton from "./StartButton";
 
 interface Props {
   stack: Stack;
@@ -79,18 +80,7 @@ const StackCard = ({ stack, loadingStacks }: Props) => {
         </CardBody>
         <CardFooter marginTop={{ lg: "1px", xl: "20px" }}>
           <HStack>
-            <Button
-              size={{ xl: "md", lg: "sm", md: "sm", base: "sm" }}
-              borderRadius={"0.8rem"}
-              bg={"#BA4A00"}
-              border="2px"
-              borderColor={"#BA4A00"}
-              color={"#EEEEEE"}
-              _hover={{ bg: "#A94402" }}
-              boxShadow={"3px 3px 2px 0 rgba(0,0,0,0.3)"}
-            >
-              Start
-            </Button>
+            <StartButton stack={stack} />
             <Button
               size={{ xl: "md", lg: "sm", md: "sm", base: "sm" }}
               borderRadius={"0.8rem"}

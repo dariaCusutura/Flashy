@@ -1,3 +1,4 @@
+"use client";
 import { AuthContext } from "@/AuthProvider";
 import { Colors } from "@/colors";
 import useAccount from "@/hooks/useAccount";

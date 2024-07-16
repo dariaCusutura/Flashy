@@ -1,3 +1,4 @@
+"use client";
 import { Colors } from "@/colors";
 import { PaginationInfo } from "@/hooks/useGetCards";
 import { Button, HStack } from "@chakra-ui/react";
