@@ -22,14 +22,6 @@ const StackPagination = ({ paginationInfo, setPage }: Props) => {
           window.scrollTo(0, 0);
         }}
         isDisabled={paginationInfo.current_page === 1 ? true : false}
-        _disabled={{
-          bg: Colors.lightGray,
-          boxShadow: "3px 3px 2px 0 rgba(0,0,0,0.3)",
-          cursor: "not-allowed",
-          _hover: {
-            bg: "#C9C6C6",
-          },
-        }}
       >
         Prev
       </Button>
@@ -53,14 +45,6 @@ const StackPagination = ({ paginationInfo, setPage }: Props) => {
             ? true
             : false
         }
-        _disabled={{
-          bg: Colors.lightGray,
-          boxShadow: "3px 3px 2px 0 rgba(0,0,0,0.3)",
-          cursor: "not-allowed",
-          _hover: {
-            bg: "#C9C6C6",
-          },
-        }}
       >
         Next
       </Button>

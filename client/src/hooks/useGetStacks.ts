@@ -29,12 +29,6 @@ export default function useGetStacks() {
     try {
       setLoadingStacks(true);
       const token = Cookies.get("access_token");
-      if (!token) {
-        console.error("[useGetStacks]: No token found");
-        toast.error("You must be logged in to access stacks");
-        logout();
-        return;
-      }
 
       let url = `${BACKEND_URL}/stacks?page=${page}`;
       if (saved) {
@@ -59,7 +53,6 @@ export default function useGetStacks() {
       } else if (response.status === 401) {
         console.error(`[useGetStacks]: Not authorised to get stacks`);
         toast.error("Not authorised to see stacks");
-        logout();
       }
     } catch (error) {
       console.error(`[useGetStacks] Failed to get stacks:`, error);

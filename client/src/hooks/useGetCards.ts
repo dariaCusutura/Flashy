@@ -38,12 +38,12 @@ export default function useGetCards() {
     try {
       setLoadingCards(true);
       const token = Cookies.get("access_token");
-      if (!token) {
-        console.error("[useGetCards]: No token found");
-        toast.error("You must be logged in to access cards");
-        logout();
-        return;
-      }
+      // if (!token) {
+      //   console.error("[useGetCards]: No token found");
+      //   toast.error("You must be logged in to access cards");
+      //   logout();
+      //   return;
+      // }
 
       let url = `${BACKEND_URL}/cards?stack=${stack}&page=${page}`;
       if (label) {
@@ -66,9 +66,8 @@ export default function useGetCards() {
         setCards(data.cards);
         setPaginationInfo(data.pagination);
       } else if (response.status === 401 || response.status === 403) {
-        console.error(`[useGetCards]: Not authorised to get these cards`);
-        toast.error("Not authorised to see cards");
         logout();
+        console.error(`[useGetCards]: Not authorised to get these cards`);
       }
     } catch (error) {
       console.error(`[useGetCards] Failed to get cards:`, error);

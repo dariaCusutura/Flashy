@@ -7,3 +7,12 @@ export class Routes {
     return `/cards/${stackName}`;
   }
 }
+
+export class PrivateRoutes {
+  static MY_STACKS = Routes.MY_STACKS;
+  static STACK_CARDS = Routes.MY_STACKS;
+}
+
+export function isPrivateRoute(route: string) {
+  return Object.values(PrivateRoutes).includes(route);
+}
