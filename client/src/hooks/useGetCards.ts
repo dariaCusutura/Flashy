@@ -70,8 +70,8 @@ export default function useGetCards() {
         console.error(`[useGetCards]: Not authorised to get these cards`);
       }
     } catch (error) {
+      logout();
       console.error(`[useGetCards] Failed to get cards:`, error);
-      toast.error("Failed to get cards");
     } finally {
       setLoadingCards(false);
     }
